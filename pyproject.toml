@@ -1,0 +1,13 @@
+[project]
+name = "face-verification"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=7.2.0",
+    "matplotlib>=3.10.8",
+    "numpy>=2.4.2",
+    "tensorflow>=2.20.0",
+    "tensorflow-datasets>=4.9.9",
+]

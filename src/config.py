@@ -1,0 +1,6 @@
+SEED = 47
+TRAIN_RATIO = 0.8
+VAL_RATIO = 0.1
+TEST_RATIO = 0.1
+
+OUTPUT_DIR = "artifacts"
