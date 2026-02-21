@@ -1,4 +1,6 @@
 # Face Verification Project
+Group: ML Verifier
+Group Members: Moataz Osama Saadeldin Abdelaziz, Ankan Roy
 
 ## Overview
 This project implements a face verification system using the Labeled Faces in the Wild (LFW) dataset. It includes:
@@ -58,7 +60,7 @@ python src/pair_gen.py
 python src/benchmark.py
 
 
-Full Pipeline
+**Full Pipeline**
 
 Run everything in one go using:
 
