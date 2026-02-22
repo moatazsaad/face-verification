@@ -1,5 +1,8 @@
 # Face Verification Project
 
+Group: ML Verifier
+Group Members: Moataz Osama Saadeldin Abdelaziz, Ankan Roy
+
 ## Overview
 This project implements a face verification system using the Labeled Faces in the Wild (LFW) dataset. It includes:
 
@@ -65,6 +68,31 @@ Run everything in one go using:
 python -m scripts.run_pipeline
 
 This will ingest the dataset, generate pairs and run the benchmark automatically. You should see runtime comparisons and correctness verification in the output.
+
+## Running on Mac
+
+1. **Create virtual environment and install packages**
+   
+   python3 -m venv tf_env        
+
+   source tf_env/bin/activate
+
+   python -m pip install --upgrade pip
+
+   python -m pip install tensorflow tensorflow-datasets numpy
+
+2. **Run data ingestion**
+
+python3 -m src.data_ingest
+
+3. **Generate image pairs**
+
+python3 -m src.pair_gen
+
+4. **Run similarity benchmark**
+
+python3 -m src.benchmark
+
 
 ## Output
 
