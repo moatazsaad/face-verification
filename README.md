@@ -69,6 +69,37 @@ python -m scripts.run_pipeline
 
 This will ingest the dataset, generate pairs and run the benchmark automatically. You should see runtime comparisons and correctness verification in the output.
 
+
+## Running on Mac
+
+1. ** Create virtual environment and install packages **
+
+RECOMMENDED:
+
+python3 -m venv tf_env
+
+source tf_env/bin/activate
+
+pip install --upgrade pip
+
+pip install tensorflow tensorflow-datasets numpy
+
+
+2. **Run data ingestion**
+
+python3 -m src.data_ingest.py
+
+
+3. **Generate image pairs**
+
+python3 -m src.pair_gen.py
+
+
+4. **Run similarity benchmark**
+
+python3 -m src.benchmark.py
+
+
 ## Output
 
 * `artifacts/dataset_manifest.json` – Dataset info and split sizes
