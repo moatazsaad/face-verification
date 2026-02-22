@@ -5,7 +5,7 @@ from src.similarity import (cosine_similarity_loop, cosine_similarity, euclidean
 
 def benchmark():
     # Loading images  
-    data = tfds.load("lfw", split="train", as_supervised=True)
+    # data = tfds.load("lfw", split="train", as_supervised=True)
 
     images = []
     for label, image in tfds.as_numpy(data):
