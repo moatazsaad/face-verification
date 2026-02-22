@@ -74,14 +74,9 @@ This will ingest the dataset, generate pairs and run the benchmark automatically
 
 1. ** Create virtual environment and install packages **
 
-RECOMMENDED:
-
 python3 -m venv tf_env
-
 source tf_env/bin/activate
-
 pip install --upgrade pip
-
 pip install tensorflow tensorflow-datasets numpy
 
 
