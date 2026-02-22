@@ -13,7 +13,6 @@ def generate_pairs(labels, indices):
     for index in indices:                          
         label = labels[index]
         label_with_indices[label].append(index)       # Append this index to the list of that label
-        # for example label_with_indices ={"Juan":[0,2,4], Jong:[1,3,5]}
 
     # Generate positive pairs 
     pair_indices = []          # Will store tuples of 2 indices of the same label
@@ -41,33 +40,30 @@ def generate_pairs(labels, indices):
     pair_label = np.array(pair_label)
 
     # Combine pairs and labels 
-    combined = np.column_stack((pair_indices, pair_label))
-    
-    # Shuffle rows 
+    combined = np.column_stack((pair_indices, pair_label))   
     np.random.shuffle(combined)
-
-    # Split back into pairs and labels
-    pair_indices, pair_label = combined[:, :2], combined[:, 2]
     
-    return pair_indices, pair_label                                           
+    return combined[:, :2], combined[:, 2]
 
-if __name__ == "__main__":
-
-    labels, dataset_split = ingest_lfw()
-    train_pairs, train_labels = generate_pairs(labels, dataset_split["train"])
-    val_pairs, val_labels = generate_pairs(labels, dataset_split["val"])
-    test_pairs, test_labels = generate_pairs(labels, dataset_split["test"])
- 
-    # Save splits
+def save_splits(labels, dataset_split):
+    
     os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-    np.save(os.path.join(OUTPUT_DIR, "train_pairs.npy"), train_pairs)
-    np.save(os.path.join(OUTPUT_DIR, "train_labels.npy"), train_labels)
+    saved_splits = {}
+    for split_name, indices in dataset_split.items():
+        pairs, labels_arr = generate_pairs(labels, indices)
+        saved_splits[split_name] = (pairs, labels_arr)
 
-    np.save(os.path.join(OUTPUT_DIR, "val_pairs.npy"), val_pairs)
-    np.save(os.path.join(OUTPUT_DIR, "val_labels.npy"), val_labels)
+        # Save files
+        np.save(os.path.join(OUTPUT_DIR, f"{split_name}_pairs.npy"), pairs)
+        np.save(os.path.join(OUTPUT_DIR, f"{split_name}_labels.npy"), labels_arr)
+        print(f"{split_name} pairs saved successfully in {OUTPUT_DIR}")
 
-    np.save(os.path.join(OUTPUT_DIR, "test_pairs.npy"), test_pairs)
-    np.save(os.path.join(OUTPUT_DIR, "test_labels.npy"), test_labels)
+    return saved_splits
 
-    print("Splits saved successfully.")
+
+if __name__ == "__main__":
+    
+    labels, dataset_split = ingest_lfw()
+    save_splits(labels, dataset_split)
+ 
