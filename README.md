@@ -51,7 +51,9 @@ Run everything in one go using:
 
 This will ingest the dataset, generate pairs and run the benchmark automatically. You should see runtime comparisons and correctness verification in the output.
 
-**Using Mac**
+NOTE: The program takes 3-4 minutes to run, while unique deterministic pairs are being generated.
+
+**Using Linux/MacOS**
 
 Create Virtual Environment:
 
