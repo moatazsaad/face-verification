@@ -8,7 +8,7 @@ def ingest_lfw():
     
     np.random.seed(SEED)
     # Load dataset (default version 0.1.1)
-    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True, download=False)
+    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True)
 
     labels = []
     for label, _ in tfds.as_numpy(data):
