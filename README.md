@@ -59,6 +59,8 @@ Create Virtual Environment:
 
 `source tf_env/bin/activate`
 
+`python -m pip install tensorflow tensorflow-datasets numpy`
+
 Run Full Script:
 
 python3 -m scripts.run_pipeline
