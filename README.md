@@ -38,6 +38,12 @@ face-verification/
 
 ## How to Run
 
+This project uses the LFW dataset via TensorFlow Datasets (TFDS).
+
+The code loads:
+    lfw:0.1.1
+
+Make sure the dataset is already downloaded in your local TFDS cache before running the pipeline.
 
 **Running Full Pipeline**
 
