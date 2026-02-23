@@ -63,7 +63,7 @@ Create Virtual Environment:
 
 Run Full Script:
 
-python3 -m scripts.run_pipeline
+`python3 -m scripts.run_pipeline`
 
 
 ## Output
