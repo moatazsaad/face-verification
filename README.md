@@ -56,6 +56,7 @@ This will ingest the dataset, generate pairs and run the benchmark automatically
 Create Virtual Environment:
 
 `python3 -m venv tf_env`
+
 `source tf_env/bin/activate`
 
 Run Full Script:
