@@ -49,7 +49,7 @@ Make sure the dataset is already downloaded in your local TFDS cache before runn
 
 Install Packages:
 
-`pip install tensorflow-datasets numpy`
+`pip install -r requirements.txt`
 
 Run everything in one go using:
 
