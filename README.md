@@ -1,6 +1,7 @@
 # Face Verification Project
 
 Group: ML Verifier
+
 Group Members: Moataz Osama Saadeldin Abdelaziz, Ankan Roy
 
 ## Overview
@@ -86,5 +87,10 @@ The benchmark prints:
 * Time taken for Python loops and NumPy vectorized operations.
 * Speedup factor of NumPy vs loops.
 * Correctness check confirmation for both similarity measures.
+
+
+## Determinism Notes
+
+The data ingestion and pair generation steps are deterministic, and the seed can be found in the data manifest. They set a fixed random seed at the start of execution. By initializing the random number generator with the same constant seed each time, any operations that rely on randomness, such as shuffling or pairing, will produce the same results across runs. So long as the input data remains unchanged and the seed value is fixed, the output will always be identical.
 
 

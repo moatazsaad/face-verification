@@ -6,6 +6,7 @@ from src.data_ingest import ingest_lfw
 from src.config import SEED, OUTPUT_DIR                
 
 def generate_pairs(labels, indices):
+    print("Pair generation in progress...")
         
     np.random.seed(SEED)  
 
