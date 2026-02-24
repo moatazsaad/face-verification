@@ -8,7 +8,7 @@ def ingest_lfw():
     
     np.random.seed(SEED)
     # Load dataset (default version 0.1.1)
-    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True)
+    data, info = tfds.load("lfw:0.1.1", split="train", as_supervised=True, with_info=True)
 
     labels = []
     for label, _ in tfds.as_numpy(data):
@@ -45,12 +45,18 @@ def ingest_lfw():
         "num_identities": len(set(labels)),
         "train_size": len(dataset_split["train"]),
         "val_size": len(dataset_split["val"]),
-        "test_size": len(dataset_split["test"])
+        "test_size": len(dataset_split["test"]),
+        "data_source": {
+            "tfds_name": info.name,
+            "version": str(info.version)
+        },
+        "cache_directory": info.data_dir,
     }
 
     with open(os.path.join(OUTPUT_DIR, "dataset_manifest.json"), "w") as f:
         json.dump(manifest, f, indent = 2)
 
+    print(f"Dataset ingested successfully. Manifest saved to {OUTPUT_DIR}/dataset_manifest.json")
     return labels, dataset_split       
 
 if __name__=="__main__":
