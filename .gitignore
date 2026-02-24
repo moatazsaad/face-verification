@@ -8,6 +8,8 @@ wheels/
 
 # Virtual environments
 .venv
+tf_env/
 
 # Artifacts and outputs
 artifacts/ 
+tf_env/
