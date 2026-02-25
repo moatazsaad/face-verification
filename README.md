@@ -40,8 +40,8 @@ face-verification/
 ```
 face-verification/
 │
-├─ data/ # Stores the LFW build
-├─ artifacts/ # Stores outputs from pair generation and benchmarking
+├─ data/                   # Stores the LFW build
+├─ artifacts/              # Stores outputs from pair generation and benchmarking
 
 ````
 
