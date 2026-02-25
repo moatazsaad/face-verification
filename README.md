@@ -14,8 +14,8 @@ This project implements a face verification system using the Labeled Faces in th
 
 ## Project Structure
 
-```
 **Committed**
+```
 face-verification/
 │
 ├─ src/
@@ -34,9 +34,10 @@ face-verification/
 ├─ artifacts/              # Output directory for manifest, pairs and labels
 ├─ pyproject.toml          # Project metadata and dependencies
 └─ README.md               # This file
-
+```
 
 **Ignored**
+```
 face-verification/
 │
 ├─ data/ # Stores the LFW build
