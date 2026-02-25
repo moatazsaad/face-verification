@@ -26,7 +26,10 @@ face-verification/
 │ └─ config.py             # Configuration file for seeds, ratios and output directory
 │
 ├─ scripts/
-│ └─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
+│ ├─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
+| ├─ run_data_ingest.py    # Runs data ingestion, creates manifest
+| ├─ run_pair_gen.py       # Runs image pair generation
+| └─ run_benchmark.py      # Runs similarity module
 │
 ├─ notebooks/
 │ └─ notebook.ipynb          
