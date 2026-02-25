@@ -20,7 +20,7 @@ def benchmark():
 
     # Generate N random image pairs for robust benchmarking
     N = 200
-    np.random.seed(42)
+    np.random.seed(SEED)  # Ensure reproducibility of random pairs
     pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
     
     # Cosine benchmark
