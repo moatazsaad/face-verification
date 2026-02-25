@@ -27,4 +27,4 @@ else:
     print("Test failed: Pairs and labels are not consistent across runs.")
         
 
-# python3 -m tests.test_pair_generation
+# Run test using: python3 -m tests.test_pair_generation
