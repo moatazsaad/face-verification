@@ -68,6 +68,6 @@ def ingest_lfw():
     print(f"Dataset ingested successfully. Manifest saved to {OUTPUT_DIR}/dataset_manifest.json")
     return labels, dataset_split       
 
-if __name__=="__main__":
+'''if __name__=="__main__":
     labels, dataset_split = ingest_lfw()
-    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")
+    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")'''

@@ -61,7 +61,7 @@ def save_splits(labels, dataset_split):
     return saved_splits
 
 
-if __name__ == "__main__":
+'''if __name__ == "__main__":
     labels, dataset_split = ingest_lfw()
-    save_splits(labels, dataset_split)
+    save_splits(labels, dataset_split)'''
  
