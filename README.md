@@ -14,8 +14,8 @@ This project implements a face verification system using the Labeled Faces in th
 
 ## Project Structure
 
+**Committed**
 ```
-
 face-verification/
 │
 ├─ src/
@@ -26,7 +26,10 @@ face-verification/
 │ └─ config.py             # Configuration file for seeds, ratios and output directory
 │
 ├─ scripts/
-│ └─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
+│ ├─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
+| ├─ run_data_ingest.py    # Runs data ingestion, creates manifest
+| ├─ run_pair_gen.py       # Runs image pair generation
+| └─ run_benchmark.py      # Runs similarity module
 │
 ├─ notebooks/
 │ └─ notebook.ipynb          
@@ -34,6 +37,14 @@ face-verification/
 ├─ artifacts/              # Output directory for manifest, pairs and labels
 ├─ pyproject.toml          # Project metadata and dependencies
 └─ README.md               # This file
+```
+
+**Ignored**
+```
+face-verification/
+│
+├─ data/                   # Stores the LFW build
+├─ artifacts/              # Stores outputs from pair generation and benchmarking
 
 ````
 
@@ -52,6 +63,14 @@ Install Packages:
 
 `pip install -r requirements.txt`
 
+Running Individual Scripts:
+
+`python -m scripts.run_data_ingest`
+
+`python -m scripts.run_pair_gen`
+
+`python -m scripts.run_benchmark`
+
 Run everything in one go using:
 
 `python -m scripts.run_pipeline`
@@ -69,6 +88,14 @@ Create Virtual Environment:
 `source tf_env/bin/activate`
 
 `pip install -r requirements.txt`
+
+Running Individual Scripts:
+
+`python3 -m scripts.run_data_ingest`
+
+`python3 -m scripts.run_pair_gen`
+
+`python3 -m scripts.run_benchmark`
 
 Run Full Script:
 

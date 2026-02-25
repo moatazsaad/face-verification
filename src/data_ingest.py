@@ -7,16 +7,25 @@ from src.config import SEED, TRAIN_RATIO, VAL_RATIO, TEST_RATIO, OUTPUT_DIR
 def ingest_lfw():
     
     np.random.seed(SEED)
-    # Load dataset (default version 0.1.1)
-    data, info = tfds.load("lfw:0.1.1", split="train", as_supervised=True, with_info=True)
-
-    labels = []
-    for label, _ in tfds.as_numpy(data):
+    
+    DATA_DIR = "data"   
+    os.makedirs(DATA_DIR, exist_ok=True)
+    
+    # Load dataset
+    data, info = tfds.load("lfw:0.1.1", split="train", as_supervised=True, with_info=True, data_dir=DATA_DIR)
+        
+    # Collect labels and original indices for deterministic ordering
+    entries = []
+    for idx, (label, _) in enumerate(tfds.as_numpy(data)):
         if isinstance(label, bytes):
             label = label.decode("utf-8")
-        labels.append(label)
+        entries.append((label, idx))  # (person name, original index)
 
-    labels = np.array(labels)
+    # Sort deterministically first by label then by index
+    entries.sort(key=lambda x: (x[0], x[1]))
+    
+    # Extract sorted labels
+    labels = np.array([e[0] for e in entries])
     
     # Number of samples in each split
     indices = np.arange(len(labels))
@@ -40,7 +49,7 @@ def ingest_lfw():
     
     manifest = {
         "seed": SEED,
-        "split_criteria": "80% train,10% val,10% test",
+        "split_criteria": (f"{TRAIN_RATIO*100:.0f}% train, "f"{VAL_RATIO*100:.0f}% val, " f"{TEST_RATIO*100:.0f}% test" ),
         "total_images": len(labels),
         "num_identities": len(set(labels)),
         "train_size": len(dataset_split["train"]),
@@ -59,6 +68,6 @@ def ingest_lfw():
     print(f"Dataset ingested successfully. Manifest saved to {OUTPUT_DIR}/dataset_manifest.json")
     return labels, dataset_split       
 
-if __name__=="__main__":
+'''if __name__=="__main__":
     labels, dataset_split = ingest_lfw()
-    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")
+    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")'''

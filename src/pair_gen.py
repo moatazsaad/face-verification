@@ -6,8 +6,6 @@ from src.data_ingest import ingest_lfw
 from src.config import SEED, OUTPUT_DIR                
 
 def generate_pairs(labels, indices):
-    print("Pair generation in progress...")
-        
     np.random.seed(SEED)  
 
     label_with_indices = defaultdict(list) # Defaultdict to map each label to all indices where label occurs
@@ -63,8 +61,7 @@ def save_splits(labels, dataset_split):
     return saved_splits
 
 
-if __name__ == "__main__":
-    
+'''if __name__ == "__main__":
     labels, dataset_split = ingest_lfw()
-    save_splits(labels, dataset_split)
+    save_splits(labels, dataset_split)'''
  
