@@ -60,6 +60,14 @@ Install Packages:
 
 `pip install -r requirements.txt`
 
+Running Individual Scripts:
+
+`python -m scripts.run_data_ingest`
+
+`python -m scripts.run_pair_gen`
+
+`python -m scripts.run_benchmark`
+
 Run everything in one go using:
 
 `python -m scripts.run_pipeline`
@@ -77,6 +85,14 @@ Create Virtual Environment:
 `source tf_env/bin/activate`
 
 `pip install -r requirements.txt`
+
+Running Individual Scripts:
+
+`python3 -m scripts.run_data_ingest`
+
+`python3 -m scripts.run_pair_gen`
+
+`python3 -m scripts.run_benchmark`
 
 Run Full Script:
 
