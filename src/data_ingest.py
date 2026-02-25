@@ -56,11 +56,11 @@ def ingest_lfw():
     "val_size": len(dataset_split["val"]),
     "test_size": len(dataset_split["test"]),
     "data_source": {
-        "tfds_name": "lfw:0.1.1",  # or info.name if dynamic
-        "version": str(info.version),  # keep version info
+        "tfds_name": "lfw:0.1.1",  
+        "version": str(info.version),  
         "local_cache": str(DATA_DIR)
     },
-    "cache_directory": info.data_dir,  # keep separate if needed
+    "cache_directory": info.data_dir,  
     "split_policy": "Split by image using fixed seed, deterministic order by label then index"
     }
 
