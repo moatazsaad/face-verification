@@ -11,5 +11,11 @@ wheels/
 tf_env/
 
 # Artifacts and outputs
-artifacts/ 
-tf_env/
+artifacts/
+data/
+
+# OS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db

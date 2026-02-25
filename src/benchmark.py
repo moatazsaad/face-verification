@@ -1,6 +1,9 @@
+import os
+
 import tensorflow_datasets as tfds
 import numpy as np
 from src.similarity import cosine_similarity_loop, cosine_similarity, euclidean_distance_loop, euclidean_distance
+from src.config import SEED, OUTPUT_DIR  
 
 
 def benchmark():
@@ -14,7 +17,7 @@ def benchmark():
     images = np.array(images)
 
     # Generate N=100 random image pairs for robust benchmarking
-    N = 100
+    N = 200
     np.random.seed(42)
     pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
     
@@ -39,7 +42,7 @@ def benchmark():
     avg_loop_cos = np.mean(loop_times_cos)
     avg_numpy_cos = np.mean(numpy_times_cos)
     
-    print("\nCosine Similarity (N=100)")
+    print("\nCosine Similarity (N=200)")
     print(f"Loop Time (mean): {avg_loop_cos:.5f} sec")
     print(f"Numpy Time (mean): {avg_numpy_cos:.5f} sec")
     print(f"Speedup: {avg_loop_cos / avg_numpy_cos:.2f}x")
@@ -67,11 +70,17 @@ def benchmark():
     avg_loop_euc = np.mean(loop_times_euc)
     avg_numpy_euc = np.mean(numpy_times_euc)
 
-    print("\nEuclidean Distance (N=100)")
+    print("\nEuclidean Distance (N=200)")
     print(f"Loop Time (mean): {avg_loop_euc:.5f} sec")
     print(f"Numpy Time (mean): {avg_numpy_euc:.5f} sec")
     print(f"Speedup: {avg_loop_euc / avg_numpy_euc:.2f}x")
     print("Euclidean correctness verified")
+
+    # Saving results to artifacts
+    np.save(os.path.join(OUTPUT_DIR, "cosine_loop_times.npy"), np.array(loop_times_cos))
+    np.save(os.path.join(OUTPUT_DIR, "cosine_numpy_times.npy"), np.array(numpy_times_cos))
+    np.save(os.path.join(OUTPUT_DIR, "euclidean_loop_times.npy"), np.array(loop_times_euc))
+    np.save(os.path.join(OUTPUT_DIR, "euclidean_numpy_times.npy"), np.array(numpy_times_euc))
     
 
 
