@@ -8,7 +8,9 @@ from src.config import SEED, OUTPUT_DIR
 
 def benchmark():
     # Loading images  
-    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True)
+    DATA_DIR = "data"   
+    os.makedirs(DATA_DIR, exist_ok=True)
+    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True, data_dir=DATA_DIR)
 
     # Extract images into a numpy array
     images = []
