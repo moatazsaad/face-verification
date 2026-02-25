@@ -21,7 +21,7 @@ def benchmark():
     np.random.seed(42)
     pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
     
-    # --- Cosine benchmark  --- #
+    # Cosine benchmark
     loop_times_cos = []
     numpy_times_cos = []
     loop_results_cos = []
@@ -49,7 +49,7 @@ def benchmark():
     print("Cosine correctness verified")
 
 
-    # --- Euclidean benchmark --- #
+    # Euclidean benchmark
     loop_times_euc = []
     numpy_times_euc = []
     loop_results_euc = []
