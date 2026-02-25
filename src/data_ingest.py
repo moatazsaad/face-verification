@@ -49,7 +49,7 @@ def ingest_lfw():
     
     manifest = {
         "seed": SEED,
-        "split_criteria": "80% train,10% val,10% test",
+        "split_criteria": (f"{TRAIN_RATIO*100:.0f}% train, "f"{VAL_RATIO*100:.0f}% val, " f"{TEST_RATIO*100:.0f}% test" ),
         "total_images": len(labels),
         "num_identities": len(set(labels)),
         "train_size": len(dataset_split["train"]),
