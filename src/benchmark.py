@@ -16,7 +16,7 @@ def benchmark():
         images.append(image)
     images = np.array(images)
 
-    # Generate N=100 random image pairs for robust benchmarking
+    # Generate N random image pairs for robust benchmarking
     N = 200
     np.random.seed(42)
     pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
