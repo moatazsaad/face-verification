@@ -39,4 +39,4 @@ print(f"Numpy Result: {numpy_result_euc:.5f}, Time: {numpy_time_euc:.5f} sec")
 assert np.isclose(loop_result_euc, numpy_result_euc), "Euclidean results do not match!"  # Correctness check
 print("Euclidean distance correctness verified")
 
-# Run test using python3 -m tests.test_similarity
+# Run test using: python3 -m tests.test_similarity

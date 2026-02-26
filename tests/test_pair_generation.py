@@ -9,7 +9,7 @@ from src.pair_gen import save_splits, generate_pairs
 labels = ['A', 'A', 'B', 'B', 'C']
 indices = [0, 1, 2, 3, 4]
 pairs, pair_labels = generate_pairs(labels, indices) # Generate the pairs and pair labels
-print(pair_labels)
+# print(pair_labels)
 
 bool = True
 for i in range(2):
