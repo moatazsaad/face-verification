@@ -48,18 +48,20 @@ def ingest_lfw():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     
     manifest = {
-        "seed": SEED,
-        "split_criteria": (f"{TRAIN_RATIO*100:.0f}% train, "f"{VAL_RATIO*100:.0f}% val, " f"{TEST_RATIO*100:.0f}% test" ),
-        "total_images": len(labels),
-        "num_identities": len(set(labels)),
-        "train_size": len(dataset_split["train"]),
-        "val_size": len(dataset_split["val"]),
-        "test_size": len(dataset_split["test"]),
-        "data_source": {
-            "tfds_name": info.name,
-            "version": str(info.version)
-        },
-        "cache_directory": info.data_dir,
+    "seed": SEED,
+    "split_criteria": f"{TRAIN_RATIO*100:.0f}% train, {VAL_RATIO*100:.0f}% val, {TEST_RATIO*100:.0f}% test",
+    "total_images": len(labels),
+    "num_identities": len(set(labels)),
+    "train_size": len(dataset_split["train"]),
+    "val_size": len(dataset_split["val"]),
+    "test_size": len(dataset_split["test"]),
+    "data_source": {
+        "tfds_name": "lfw:0.1.1",  
+        "version": str(info.version),  
+        "local_cache": str(DATA_DIR)
+    },
+    "cache_directory": info.data_dir,  
+    "split_policy": "Split by image using fixed seed, deterministic order by label then index"
     }
 
     with open(os.path.join(OUTPUT_DIR, "dataset_manifest.json"), "w") as f:
