@@ -20,8 +20,8 @@ def benchmark():
 
     # Generate N random image pairs for robust benchmarking
     N = 200
-    np.random.seed(42)
-    pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
+    np.random.seed(SEED)  # Ensure reproducibility of random pairs
+    pair_indices = np.random.choice(len(images), size=(N, 2), replace=True) # Randomly select N pairs of indices from the dataset for benchmarking
     
     # Cosine benchmark
     loop_times_cos = []
