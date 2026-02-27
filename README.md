@@ -108,6 +108,8 @@ Run Full Script:
 * `artifacts/train_pairs.npy`, `train_labels.npy` – Training pairs and labels
 * `artifacts/val_pairs.npy`, `val_labels.npy` – Validation pairs and labels
 * `artifacts/test_pairs.npy`, `test_labels.npy` – Test pairs and labels
+* `artifacts/cosine_loop_times.npy`, `cosine_numpy_times.npy` - Cosine similarity benchmarking
+* `artifacts/euclidean_loop_times.npy`, `euclidean_numpy_times.npy` - Euclidean distance benchmarking
 
 The benchmark prints:
 
