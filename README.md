@@ -108,6 +108,8 @@ Run Full Script:
 * `artifacts/train_pairs.npy`, `train_labels.npy` – Training pairs and labels
 * `artifacts/val_pairs.npy`, `val_labels.npy` – Validation pairs and labels
 * `artifacts/test_pairs.npy`, `test_labels.npy` – Test pairs and labels
+* `artifacts/cosine_loop_times.npy`, `cosine_numpy_times.npy` - Cosine similarity benchmarking
+* `artifacts/euclidean_loop_times.npy`, `euclidean_numpy_times.npy` - Euclidean distance benchmarking
 
 The benchmark prints:
 
@@ -120,4 +122,8 @@ The benchmark prints:
 
 The data ingestion and pair generation steps are deterministic, and the seed can be found in the data manifest. They set a fixed random seed at the start of execution. By initializing the random number generator with the same constant seed each time, any operations that rely on randomness, such as shuffling or pairing, will produce the same results across runs. So long as the input data remains unchanged and the seed value is fixed, the output will always be identical.
 
+A few simple tests can be run to check determinism:
 
+`python3 -m tests.test_data_ingest`
+
+`python3 -m tests.test_pair_generation`

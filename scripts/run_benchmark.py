@@ -4,6 +4,7 @@ from src.similarity import cosine_similarity_loop, cosine_similarity, euclidean_
 from src.benchmark import benchmark
 
 def main():
+    print("Bencharking in progress...")
     benchmark()
 
 if __name__ == "__main__":

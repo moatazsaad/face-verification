@@ -8,7 +8,9 @@ from src.config import SEED, OUTPUT_DIR
 
 def benchmark():
     # Loading images  
-    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True)
+    DATA_DIR = "data"   
+    os.makedirs(DATA_DIR, exist_ok=True)
+    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True, data_dir=DATA_DIR)
 
     # Extract images into a numpy array
     images = []
@@ -18,8 +20,8 @@ def benchmark():
 
     # Generate N random image pairs for robust benchmarking
     N = 200
-    np.random.seed(42)
-    pair_indices = np.random.choice(len(images), size=(N, 2), replace=True)
+    np.random.seed(SEED)  # Ensure reproducibility of random pairs
+    pair_indices = np.random.choice(len(images), size=(N, 2), replace=True) # Randomly select N pairs of indices from the dataset for benchmarking
     
     # Cosine benchmark
     loop_times_cos = []

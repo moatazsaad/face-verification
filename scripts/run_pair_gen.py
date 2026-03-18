@@ -7,6 +7,7 @@ from src.pair_gen import save_splits, generate_pairs
 
 def main():
     labels, dataset_split = ingest_lfw()
+    print("Pair generation and saving in progress...")
     save_splits(labels, dataset_split)
 
 if __name__ == "__main__":
