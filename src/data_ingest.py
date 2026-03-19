@@ -7,16 +7,25 @@ from src.config import SEED, TRAIN_RATIO, VAL_RATIO, TEST_RATIO, OUTPUT_DIR
 def ingest_lfw():
     
     np.random.seed(SEED)
+    
+    DATA_DIR = "data"   
+    os.makedirs(DATA_DIR, exist_ok=True)
+    
     # Load dataset
-    data = tfds.load("lfw", split="train", as_supervised=True)
-
-    labels = []
-    for label, _ in tfds.as_numpy(data):
+    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True, data_dir=DATA_DIR)
+        
+    # Collect labels and original indices for deterministic ordering
+    entries = []
+    for idx, (label, _) in enumerate(tfds.as_numpy(data)):
         if isinstance(label, bytes):
             label = label.decode("utf-8")
-        labels.append(label)
+        entries.append((label, idx))  # (person name, original index)
 
-    labels = np.array(labels)
+    # Sort deterministically first by label then by index
+    entries.sort(key=lambda x: (x[0], x[1]))
+    
+    # Extract sorted labels
+    labels = np.array([e[0] for e in entries])
     
     # Number of samples in each split
     indices = np.arange(len(labels))
@@ -39,13 +48,18 @@ def ingest_lfw():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     
     manifest = {
-        "seed": SEED,
-        "split_criteria": "80% train,10% val,10% test",
-        "total_images": len(labels),
-        "num_identities": len(set(labels)),
-        "train_size": len(dataset_split["train"]),
-        "val_size": len(dataset_split["val"]),
-        "test_size": len(dataset_split["test"])
+    "seed": SEED,
+    "split_criteria": f"{TRAIN_RATIO*100:.0f}% train, {VAL_RATIO*100:.0f}% val, {TEST_RATIO*100:.0f}% test",
+    "total_images": len(labels),
+    "num_identities": len(set(labels)),
+    "train_size": len(dataset_split["train"]),
+    "val_size": len(dataset_split["val"]),
+    "test_size": len(dataset_split["test"]),
+    "data_source": {
+        "tfds_name": "lfw:0.1.1",
+        "local_cache": str(DATA_DIR)
+    },
+    "split_policy": "Split by image using fixed seed, deterministic order by label then index"
     }
 
     with open(os.path.join(OUTPUT_DIR, "dataset_manifest.json"), "w") as f:

@@ -6,10 +6,7 @@ from src.config import OUTPUT_DIR
 
 def main():
     labels, dataset_split = ingest_lfw()
-
-    # Generate all pairs and save automatically
     save_splits(labels, dataset_split)
-
     benchmark()
 
 if __name__ == "__main__":

@@ -8,6 +8,14 @@ wheels/
 
 # Virtual environments
 .venv
+tf_env/
 
-# Artifacts and outputs
-artifacts/ 
+# Artifacts and data
+artifacts/
+data/
+
+# OS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
