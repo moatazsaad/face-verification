@@ -1,7 +1,12 @@
+Here is your **complete final README (clean, concise, and rubric-perfect)** with everything integrated properly:
+
+---
+
+````markdown
 # Face Verification Project
 
 **Group:** ML Verifier  
-**Group Members:** Moataz Osama Saadeldin Abdelaziz, Ankan Roy
+**Group Members:** Moataz Osama Saadeldin Abdelaziz, Ankan Roy  
 
 ---
 
@@ -11,50 +16,53 @@ This project implements a face verification system using the **Labeled Faces in 
 
 The system takes two face images and outputs:
 - a similarity score  
-- a same-person vs different-person decision based on a threshold  
+- a same-person vs different-person decision using a threshold  
 
-The project is structured in two milestones:
-
-- **Milestone 1:** deterministic pipeline (data ingestion, pair generation, similarity scoring, benchmarking)  
-- **Milestone 2:** reproducible evaluation system with threshold calibration, experiment tracking, data-centric iteration, and error analysis  
+The project evolves from a deterministic pipeline (Milestone 1) into a **reproducible ML evaluation system** (Milestone 2) with:
+- experiment tracking  
+- threshold calibration  
+- data-centric iteration  
+- error analysis  
 
 ---
 
-## Milestone 1 (Baseline)
+## Milestone 1 (Baseline System)
 
-- Deterministic LFW ingestion and dataset split  
-- Deterministic pair generation (train / validation / test)  
+- Deterministic dataset ingestion (LFW via TFDS)  
+- Deterministic train / validation / test split  
+- Deterministic pair generation  
 - Similarity computation:
-  - Cosine similarity  
-  - Euclidean distance  
-- Benchmarking Python loops vs NumPy vectorization  
+  - cosine similarity  
+  - euclidean distance  
+- Benchmarking: Python loops vs NumPy  
 
 ---
 
-## Milestone 2 (Evaluation & Iteration)
+## Milestone 2 (Evaluation System)
 
 ### Baseline
-- Threshold selected from full validation set  
+- Threshold selected on full validation set  
 - Rule: **maximize balanced accuracy**  
 - Final evaluation on held-out test set  
 
 ### Data-Centric Improvement
 - Keep all positive pairs  
-- Sample negatives to **3:1 ratio (negative:positive)**  
-- Threshold re-selected on sampled validation  
-- Test set unchanged  
+- Sample negative pairs to **3:1 ratio (negative:positive)**  
+- Implemented in: `src/validation_sampling.py`  
+- Re-run threshold selection on sampled validation  
+- Test set remains unchanged  
 
 ---
 
 ## Key Result
 
-Both baseline and improved systems produced the same threshold:
+Both baseline and improved systems produced:
 
-> **Threshold = 0.76**
+> **Selected threshold = 0.76**
 
 This indicates:
-- stable similarity ranking  
-- robust threshold selection  
+- stable similarity score ranking  
+- threshold selection is robust to validation sampling  
 
 ---
 
@@ -71,6 +79,7 @@ face-verification/
 │  ├─ evaluation.py
 │  ├─ metrics.py
 │  ├─ validation.py
+│  ├─ validation_sampling.py   # negative sampling (3:1)
 │  ├─ run_tracker.py
 │  └─ config.py
 │
@@ -89,15 +98,18 @@ face-verification/
 │
 ├─ tests/
 ├─ artifacts/
+│   └─ runs/
 ├─ reports/
-├─ pyproject.toml
+│   └─ milestone2_report.pdf
+│
 ├─ requirements.txt
+├─ pyproject.toml
 └─ README.md
 ````
 
 ---
 
-## How to Run
+## How to Run (Clean Reproduction)
 
 ### 1. Install dependencies
 
@@ -107,17 +119,16 @@ pip install -r requirements.txt
 
 ---
 
-### 2. Run full pipeline
+### 2. Generate dataset and pairs (Milestone 1)
 
 ```bash
-python -m scripts.run_pipeline
+python -m scripts.run_data_ingest
+python -m scripts.run_pair_gen
 ```
 
 ---
 
-## Milestone 2 Pipeline
-
-### Baseline
+### 3. Baseline evaluation (Milestone 2)
 
 ```bash
 python -m scripts.run_val_sweep
@@ -125,7 +136,9 @@ python -m scripts.run_val_eval
 python -m scripts.run_baseline_test_eval
 ```
 
-### Data-Centric Improvement
+---
+
+### 4. Data-centric improvement
 
 ```bash
 python -m scripts.sample_validation_pairs
@@ -136,7 +149,7 @@ python -m scripts.run_sampled_test_eval
 
 ---
 
-## Run Tests
+### 5. Run tests
 
 ```bash
 pytest
@@ -146,17 +159,27 @@ pytest
 
 ## Outputs
 
-* `artifacts/train_pairs.npy`, `train_labels.npy`
-* `artifacts/val_pairs.npy`, `val_labels.npy`
-* `artifacts/test_pairs.npy`, `test_labels.npy`
-* experiment tracking logs in `artifacts/runs/`
-* threshold sweep outputs
+Generated in `artifacts/`:
+
+* `train_pairs.npy`, `train_labels.npy`
+* `val_pairs.npy`, `val_labels.npy`
+* `val_pairs_sampled.npy`, `val_labels_sampled.npy`
+* `test_pairs.npy`, `test_labels.npy`
+
+Experiment tracking:
+
+* `artifacts/runs/*.json`
+
+Plots:
+
+* ROC curves
+* confusion matrix
 
 ---
 
 ## Experiment Tracking
 
-Each run records:
+Each run logs:
 
 * run_id
 * timestamp
@@ -165,27 +188,35 @@ Each run records:
 * selected threshold
 * evaluation metrics
 
+Minimum required tracked runs included:
+
+* baseline validation sweep
+* baseline validation evaluation
+* baseline test evaluation
+* sampled validation sweep
+* sampled test evaluation
+
 ---
 
 ## Threshold Selection
 
-* Rule: **maximize balanced accuracy on validation set**
-* No test leakage
+* Rule: **maximize balanced accuracy on validation**
+* Selected on validation only
 * Fixed before test evaluation
+* No data leakage
 
 ---
 
 ## Data-Centric Change
 
 **Problem:**
-
-* Validation set dominated by negative pairs
+Validation set heavily imbalanced (too many negative pairs)
 
 **Solution:**
 
-* Deterministic sampling
 * Keep all positives
-* Sample negatives to **3:1 ratio**
+* Sample negatives to 3:1 ratio
+* Deterministic sampling using fixed seed
 
 **Effect:**
 
@@ -200,18 +231,18 @@ Each run records:
 ```text
 baseline_val_sweep
         ↓
-sample_validation_pairs
+baseline_test_eval
+        ↓
+validation_sampling (3:1)
         ↓
 sampled_val_sweep
-        ↓
-best_threshold_selection
         ↓
 sampled_test_eval
 ```
 
 ---
 
-## Results (Test Set)
+## Final Test Results
 
 * Precision ≈ 0.003
 * Recall ≈ 0.36
@@ -219,35 +250,51 @@ sampled_test_eval
 
 **Observation:**
 
-* High false positives
-* Difficulty distinguishing visually similar faces
+* high false positives
+* difficulty distinguishing similar faces
 
 ---
 
 ## Error Analysis
 
-### False Negatives
+### False Negatives (Same Person)
 
-* Same person under different conditions
-* Cause: intra-class variation
+* variation in pose, lighting, expression
+* model sensitive to intra-class variation
 
-### False Positives
+### False Positives (Different People)
 
-* Different people with similar appearance
-* Cause: weak feature discrimination
+* visually similar individuals
+* model relies on coarse features
 
 ---
 
 ## Validation & Reliability
 
-* Input validation (pairs, labels, splits)
-* Threshold validation
-* Metric consistency checks
-* Fail-fast error handling
+* input validation (pairs, labels, splits)
+* threshold validation
+* metric consistency checks
+* fail-fast errors
 
 ---
 
-## Milestone 2 Report
+## Tests
+
+Includes:
+
+* unit tests:
+
+  * metrics
+  * threshold logic
+  * validation checks
+
+* integration test:
+
+  * end-to-end pipeline on small synthetic data
+
+---
+
+## Report
 
 Located at:
 
@@ -259,22 +306,25 @@ Includes:
 
 * ROC curve
 * confusion matrix
-* error analysis
 * baseline vs improved comparison
+* error slices
 
 ---
 
 ## Reproducibility
 
-All steps are deterministic:
+The pipeline is fully deterministic:
 
 * fixed random seed
-* reproducible pair generation
-* identical outputs across runs
+* deterministic pair generation
+* reproducible threshold selection
 
 From a clean clone:
 
 1. install dependencies
 2. run pipeline commands
-3. results will reproduce
+3. results reproduce exactly
+
+
+
 
