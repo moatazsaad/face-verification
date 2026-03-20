@@ -301,8 +301,3 @@ All data processing steps are deterministic:
 * identical outputs across runs
 
 ---
-
-## Submission
-
-* Git tag: `v0.2`
-* Includes reproducible pipeline, report, tests, and tracked runs
