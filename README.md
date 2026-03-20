@@ -1,8 +1,3 @@
-Here is your **complete final README (clean, concise, and rubric-perfect)** with everything integrated properly:
-
----
-
-````markdown
 # Face Verification Project
 
 **Group:** ML Verifier  
