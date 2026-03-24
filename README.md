@@ -1,3 +1,4 @@
+```markdown
 # Face Verification Project
 
 **Group:** ML Verifier  
@@ -73,8 +74,8 @@ face-verification/
 │ ├─ run_data_ingest.py
 │ ├─ run_pair_gen.py
 │ ├─ run_benchmark.py
-│ ├─ run_val_sweep.py
-│ ├─ run_val_eval.py
+│ ├─ run_baseline_val_sweep.py
+│ ├─ run_baseline_val_eval.py
 │ ├─ run_baseline_test_eval.py
 │ ├─ sample_validation_pairs.py
 │ ├─ run_sampled_val_sweep.py
@@ -102,6 +103,13 @@ pip install -r requirements.txt
 
 ### Milestone 1 Pipeline
 
+Create virtual environment:
+```bash
+python3 -m venv tf_env
+source tf_env/bin/activate
+pip install -r requirements.txt
+```
+
 ```bash
 python -m scripts.run_data_ingest
 python -m scripts.run_pair_gen
@@ -121,8 +129,8 @@ python -m scripts.run_pipeline
 #### Baseline
 
 ```bash
-python -m scripts.run_val_sweep
-python -m scripts.run_val_eval
+python -m scripts.run_baseline_val_sweep
+python -m scripts.run_baseline_val_eval
 python -m scripts.run_baseline_test_eval
 ```
 
@@ -301,3 +309,11 @@ All data processing steps are deterministic:
 * identical outputs across runs
 
 ---
+
+## Submission
+
+* Git tag: `v0.2`
+* Includes reproducible pipeline, report, tests, and tracked runs
+
+```
+```
