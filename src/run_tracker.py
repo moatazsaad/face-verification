@@ -4,14 +4,18 @@ import subprocess
 from datetime import datetime
 from src.config import RUNS_DIR
 
+# Utility functions for tracking and saving runs, including git commit retrieval and run record saving.
 def get_git_commit():
     try:
         return subprocess.check_output(["git", "rev-parse", "HEAD"]).decode("utf-8").strip()
     except Exception:
         return "unknown"
 
+# Save run details to a JSON file in the runs directory, including metadata and metrics.
 def save_run(run_id, split, data_version, score_function, threshold_rule, selected_threshold, metrics, note, extra=None):
     os.makedirs(RUNS_DIR, exist_ok=True)
+
+    # Create a unique timestamp for the run
 
     run_record = {
         "run_id": run_id,
@@ -29,6 +33,7 @@ def save_run(run_id, split, data_version, score_function, threshold_rule, select
     if extra is not None:
         run_record["extra"] = extra
 
+    # Save path to run with run id and its corresponding timestamp
     save_path = os.path.join(RUNS_DIR, f"{run_id}.json")
 
     with open(save_path, "w") as f:

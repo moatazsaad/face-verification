@@ -27,17 +27,11 @@ PAIR_POLICY_CONFIG = {
 
 #  Milestone 2 settings 
 
-# similarity score used by the verifier
-SCORE_FUNCTION = "cosine"
 
-# interpretation of score
-SCORE_DIRECTION = "higher_is_more_similar"
-
-# split used to choose threshold
-THRESHOLD_SELECTION_SPLIT = "val"
-
-# split used for final reporting
-FINAL_EVAL_SPLIT = "test"
+SCORE_FUNCTION = "cosine" # similarity score used by the verifier
+SCORE_DIRECTION = "higher_is_more_similar" # interpretation of score
+THRESHOLD_SELECTION_SPLIT = "val" # split used to choose threshold
+FINAL_EVAL_SPLIT = "test" # split used for final reporting
 
 # threshold sweep range for validation experiments
 THRESHOLD_MIN = -1.0
@@ -45,7 +39,27 @@ THRESHOLD_MAX = 1.0
 THRESHOLD_STEP = 0.01
 
 # negative sampling ratio for validation split
-VAL_NEGATIVE_RATIO = 3     # keep 3 negatives for every positive pair
+VAL_NEGATIVE_RATIO = 3
 
 # directory for experiment runs
 RUNS_DIR = "artifacts/runs"
+
+# MLflow settings
+# Allows us to easily track and compare different runs, and log artifacts like the threshold sweep results
+ENABLE_MLFLOW = True
+MLFLOW_EXPERIMENT_NAME = "face-verification"
+MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
+
+# Saves unique run names based on VAL_NEGATIVE_RATIO
+
+def sampled_pairs_filename():
+    return f"val_pairs_sampled_neg{VAL_NEGATIVE_RATIO}x.npy"
+
+def sampled_labels_filename():
+    return f"val_labels_sampled_neg{VAL_NEGATIVE_RATIO}x.npy"
+
+def sampled_sweep_filename():
+    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_threshold_sweep.json"
+
+def sampled_best_threshold_filename():
+    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_best_threshold.json"

@@ -73,8 +73,8 @@ face-verification/
 │ ├─ run_data_ingest.py
 │ ├─ run_pair_gen.py
 │ ├─ run_benchmark.py
-│ ├─ run_val_sweep.py
-│ ├─ run_val_eval.py
+│ ├─ run_baseline_val_sweep.py
+│ ├─ run_baseline_val_eval.py
 │ ├─ run_baseline_test_eval.py
 │ ├─ sample_validation_pairs.py
 │ ├─ run_sampled_val_sweep.py

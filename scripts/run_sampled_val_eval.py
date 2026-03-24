@@ -2,21 +2,35 @@
 import os
 import json
 import numpy as np
-from src.config import OUTPUT_DIR, SCORE_FUNCTION
+from src.config import (
+    OUTPUT_DIR, SCORE_FUNCTION, ENABLE_MLFLOW, VAL_NEGATIVE_RATIO,
+    sampled_pairs_filename, sampled_labels_filename,
+    sampled_best_threshold_filename
+)
 from src.evaluation import load_lfw_images, evaluate_pairs
 from src.run_tracker import save_run
-from src.validation import validate_split_name, validate_pairs, validate_labels, validate_pairs_and_labels_match, validate_threshold, validate_metrics
+from src.validation import (
+    validate_split_name, validate_pairs, validate_labels,
+    validate_pairs_and_labels_match, validate_threshold, validate_metrics
+)
 from src.mlflow_tracker import init_mlflow, log_run_to_mlflow
 
 def main():
 
-    init_mlflow()
+    if ENABLE_MLFLOW:
+        try:
+            init_mlflow()           
+        except Exception as e:
+            print(f"Error initializing MLflow: {e}")
 
-    # Load the best threshold selected during the sampled validation sweep
-    best_path = os.path.join(OUTPUT_DIR, "val_sampled_best_threshold.json")
+    threshold_source = sampled_best_threshold_filename()
+    best_path = os.path.join(OUTPUT_DIR, threshold_source)
 
     if not os.path.exists(best_path):
         raise FileNotFoundError(f"Missing file: {best_path}")
+
+    if "test" in threshold_source.lower():
+        raise ValueError("Threshold source must not come from test artifacts")
 
     with open(best_path, "r") as f:
         best = json.load(f)
@@ -28,8 +42,11 @@ def main():
     validate_split_name(split_name)
 
     # Load sampled validation pairs and labels
-    pairs_path = os.path.join(OUTPUT_DIR, "val_pairs_sampled.npy")
-    labels_path = os.path.join(OUTPUT_DIR, "val_labels_sampled.npy")
+    split_name = "val_sampled"
+    validate_split_name(split_name)
+
+    pairs_path = os.path.join(OUTPUT_DIR, sampled_pairs_filename())
+    labels_path = os.path.join(OUTPUT_DIR, sampled_labels_filename())
 
     if not os.path.exists(pairs_path):
         raise FileNotFoundError(f"Missing file: {pairs_path}")
@@ -54,34 +71,37 @@ def main():
 
     # Save this run so it appears in the tracked experiments
     save_run(
-        run_id="sampled_val_eval_best",
+        run_id=f"sampled_val_eval_neg{VAL_NEGATIVE_RATIO}x",
         split="val_sampled",
-        data_version="val_pairs_sampled.npy",
+        data_version=sampled_pairs_filename(),
         score_function=SCORE_FUNCTION,
         threshold_rule="best threshold from sampled validation sweep",
         selected_threshold=selected_threshold,
         metrics=results["metrics"],
-        note="Evaluation on sampled validation set using threshold selected from sweep",
+        note=f"Evaluation on sampled validation set using neg{VAL_NEGATIVE_RATIO}x",
         extra={
-            "best_threshold_file": "val_sampled_best_threshold.json",
+            "ratio_tag": f"neg{VAL_NEGATIVE_RATIO}x",
+            "best_threshold_file": sampled_best_threshold_filename(),
             "num_pairs": int(len(pairs)),
         }
     )
     
     # Alternative way; Log this evaluation run to MLflow for tracking
     log_run_to_mlflow(
-        run_id="sampled_val_eval_best",
-        split="val_sampled",
-        data_version="val_pairs_sampled.npy",
-        score_function=SCORE_FUNCTION,
-        threshold_rule="best threshold from sampled validation sweep",
-        selected_threshold=selected_threshold,
-        metrics=results["metrics"],
-        note="Evaluation on sampled validation set using threshold selected from sweep",
-        extra={
-            "best_threshold_file": "val_sampled_best_threshold.json",
-            "num_pairs": int(len(pairs)),
-        })
+                run_id=f"sampled_val_eval_3{VAL_NEGATIVE_RATIO}x",
+                split="val_sampled",
+                data_version=sampled_pairs_filename(),
+                score_function=SCORE_FUNCTION,
+                threshold_rule="best threshold from sampled validation sweep",
+                selected_threshold=selected_threshold,
+                metrics=results["metrics"],
+                note=f"Evaluation on sampled validation set using neg{VAL_NEGATIVE_RATIO}x",
+                extra={
+                    "ratio_tag": f"neg{VAL_NEGATIVE_RATIO}x",
+                    "best_threshold_file": sampled_best_threshold_filename(),
+                    "num_pairs": int(len(pairs)),
+                }
+            )
     # Print results to terminal
     print("Split: val_sampled")
     print(f"Score type: {results['score_type']}")

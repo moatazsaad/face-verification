@@ -2,16 +2,22 @@
 import os
 import json
 import numpy as np
-from src.config import OUTPUT_DIR, SCORE_FUNCTION, THRESHOLD_MIN, THRESHOLD_MAX, THRESHOLD_STEP
+from src.config import OUTPUT_DIR, SCORE_FUNCTION, THRESHOLD_MIN, THRESHOLD_MAX, THRESHOLD_STEP, ENABLE_MLFLOW
 from src.evaluation import load_lfw_images, compute_scores
 from src.metrics import apply_threshold, compute_metrics
 from src.run_tracker import save_run
 from src.validation import validate_split_name, validate_pairs, validate_labels, validate_pairs_and_labels_match, validate_scores
-from src.mlflow_tracker import init_mlflow, log_run_to_mlflow
+from src.mlflow_tracker import init_mlflow
 
 def main():
     
-    init_mlflow()
+    # init_mlflow()
+    if ENABLE_MLFLOW:
+        try:
+            init_mlflow()           
+        except Exception as e:
+            print(f"Error initializing MLflow: {e}")
+    
     split_name = "val"
 
     pairs_path = os.path.join(OUTPUT_DIR, f"{split_name}_pairs.npy")
