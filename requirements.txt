@@ -1,3 +1,5 @@
 numpy
 tensorflow
 tensorflow-datasets
+mlflow
+pytest

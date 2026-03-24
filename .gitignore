@@ -6,6 +6,10 @@ dist/
 wheels/
 *.egg-info
 
+# mlflow
+mlruns/
+mlflow.db
+
 # Virtual environments
 .venv
 tf_env/
