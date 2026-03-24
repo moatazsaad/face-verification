@@ -1,4 +1,3 @@
-```markdown
 # Face Verification Project
 
 **Group:** ML Verifier  
@@ -307,6 +306,3 @@ All data processing steps are deterministic:
 
 * Git tag: `v0.2`
 * Includes reproducible pipeline, report, tests, and tracked runs
-
-```
-```
