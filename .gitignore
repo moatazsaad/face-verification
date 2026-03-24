@@ -10,7 +10,11 @@ wheels/
 .venv
 tf_env/
 
+<<<<<<< HEAD
 # Artifacts and data
+=======
+# Artifacts and outputs
+>>>>>>> origin/main
 artifacts/
 data/
 

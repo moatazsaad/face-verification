@@ -12,7 +12,7 @@ def ingest_lfw():
     os.makedirs(DATA_DIR, exist_ok=True)
     
     # Load dataset
-    data = tfds.load("lfw:0.1.1", split="train", as_supervised=True, data_dir=DATA_DIR)
+    data, info = tfds.load("lfw:0.1.1", split="train", as_supervised=True, with_info=True, data_dir=DATA_DIR)
         
     # Collect labels and original indices for deterministic ordering
     entries = []
@@ -56,17 +56,20 @@ def ingest_lfw():
     "val_size": len(dataset_split["val"]),
     "test_size": len(dataset_split["test"]),
     "data_source": {
-        "tfds_name": "lfw:0.1.1",
+        "tfds_name": "lfw:0.1.1",  
+        "version": str(info.version),  
         "local_cache": str(DATA_DIR)
     },
+    "cache_directory": info.data_dir,  
     "split_policy": "Split by image using fixed seed, deterministic order by label then index"
     }
 
     with open(os.path.join(OUTPUT_DIR, "dataset_manifest.json"), "w") as f:
         json.dump(manifest, f, indent = 2)
 
+    print(f"Dataset ingested successfully. Manifest saved to {OUTPUT_DIR}/dataset_manifest.json")
     return labels, dataset_split       
 
-if __name__=="__main__":
+'''if __name__=="__main__":
     labels, dataset_split = ingest_lfw()
-    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")
+    print(f"Number of images: {len(labels)}\nTrain size: {len(dataset_split['train'])}\nVal size: {len(dataset_split['val'])}\nTest size:{len(dataset_split['test'])}")'''

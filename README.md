@@ -1,7 +1,16 @@
 # Face Verification Project
 
+<<<<<<< HEAD
 **Group:** ML Verifier  
 **Group Members:** Moataz Osama Saadeldin Abdelaziz, Ankan Roy  
+=======
+Group: ML Verifier
+
+Group Members: Moataz Osama Saadeldin Abdelaziz, Ankan Roy
+
+## Overview
+This project implements a face verification system using the Labeled Faces in the Wild (LFW) dataset. It includes:
+>>>>>>> origin/main
 
 ---
 
@@ -63,7 +72,8 @@ This indicates:
 
 ## Project Structure
 
-```text
+**Committed**
+```
 face-verification/
 │
 ├─ src/
@@ -79,17 +89,10 @@ face-verification/
 │  └─ config.py
 │
 ├─ scripts/
-│  ├─ run_pipeline.py
-│  ├─ run_data_ingest.py
-│  ├─ run_pair_gen.py
-│  ├─ run_benchmark.py
-│  ├─ run_val_sweep.py
-│  ├─ run_val_eval.py
-│  ├─ run_baseline_test_eval.py
-│  ├─ sample_validation_pairs.py
-│  ├─ run_sampled_val_sweep.py
-│  ├─ run_sampled_val_eval.py
-│  └─ run_sampled_test_eval.py
+│ ├─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
+| ├─ run_data_ingest.py    # Runs data ingestion, creates manifest
+| ├─ run_pair_gen.py       # Runs image pair generation
+| └─ run_benchmark.py      # Runs similarity module
 │
 ├─ tests/
 ├─ artifacts/
@@ -97,229 +100,96 @@ face-verification/
 ├─ reports/
 │   └─ milestone2_report.pdf
 │
-├─ requirements.txt
-├─ pyproject.toml
-└─ README.md
+├─ artifacts/              # Output directory for manifest, pairs and labels
+├─ pyproject.toml          # Project metadata and dependencies
+└─ README.md               # This file
+```
+
+**Ignored**
+```
+face-verification/
+│
+├─ data/                   # Stores the LFW build
+├─ artifacts/              # Stores outputs from pair generation and benchmarking
+
 ````
 
 ---
 
-## How to Run (Clean Reproduction)
+This project uses the LFW dataset via TensorFlow Datasets (TFDS).
 
-### 1. Install dependencies
+The code loads:
+    lfw:0.1.1
 
-```bash
-pip install -r requirements.txt
-```
+Make sure the dataset is already downloaded in your local TFDS cache before running the pipeline.
 
----
+**Running Full Pipeline**
 
-### 2. Generate dataset and pairs (Milestone 1)
+Install Packages:
 
-```bash
-python -m scripts.run_data_ingest
-python -m scripts.run_pair_gen
-```
+`pip install -r requirements.txt`
 
----
+Running Individual Scripts:
 
-### 3. Baseline evaluation (Milestone 2)
+`python -m scripts.run_data_ingest`
 
-```bash
-python -m scripts.run_val_sweep
-python -m scripts.run_val_eval
-python -m scripts.run_baseline_test_eval
-```
+`python -m scripts.run_pair_gen`
 
----
+`python -m scripts.run_benchmark`
 
-### 4. Data-centric improvement
+Run everything in one go using:
 
-```bash
-python -m scripts.sample_validation_pairs
-python -m scripts.run_sampled_val_sweep
-python -m scripts.run_sampled_val_eval
-python -m scripts.run_sampled_test_eval
-```
+`python -m scripts.run_pipeline`
 
----
+This will ingest the dataset, generate pairs and run the benchmark automatically. You should see runtime comparisons and correctness verification in the output.
 
-### 5. Run tests
+NOTE: The program takes 3-4 minutes to run, while unique deterministic pairs are being generated.
 
-```bash
-pytest
-```
+**Using Linux/MacOS**
 
----
+Create Virtual Environment:
 
-## Outputs
+`python3 -m venv tf_env`
 
-Generated in `artifacts/`:
+`source tf_env/bin/activate`
 
-* `train_pairs.npy`, `train_labels.npy`
-* `val_pairs.npy`, `val_labels.npy`
-* `val_pairs_sampled.npy`, `val_labels_sampled.npy`
-* `test_pairs.npy`, `test_labels.npy`
+`pip install -r requirements.txt`
 
-Experiment tracking:
+Running Individual Scripts:
 
-* `artifacts/runs/*.json`
+`python3 -m scripts.run_data_ingest`
 
-Plots:
+`python3 -m scripts.run_pair_gen`
 
-* ROC curves
-* confusion matrix
+`python3 -m scripts.run_benchmark`
 
----
+Run Full Script:
 
-## Experiment Tracking
+`python3 -m scripts.run_pipeline`
 
-Each run logs:
 
-* run_id
-* timestamp
-* code version
-* dataset split
-* selected threshold
-* evaluation metrics
+## Output
 
-Minimum required tracked runs included:
+* `artifacts/dataset_manifest.json` – Dataset info and split sizes
+* `artifacts/train_pairs.npy`, `train_labels.npy` – Training pairs and labels
+* `artifacts/val_pairs.npy`, `val_labels.npy` – Validation pairs and labels
+* `artifacts/test_pairs.npy`, `test_labels.npy` – Test pairs and labels
+* `artifacts/cosine_loop_times.npy`, `cosine_numpy_times.npy` - Cosine similarity benchmarking
+* `artifacts/euclidean_loop_times.npy`, `euclidean_numpy_times.npy` - Euclidean distance benchmarking
 
-* baseline validation sweep
-* baseline validation evaluation
-* baseline test evaluation
-* sampled validation sweep
-* sampled test evaluation
+The benchmark prints:
 
----
+* Time taken for Python loops and NumPy vectorized operations.
+* Speedup factor of NumPy vs loops.
+* Correctness check confirmation for both similarity measures.
 
-## Threshold Selection
 
-* Rule: **maximize balanced accuracy on validation**
-* Selected on validation only
-* Fixed before test evaluation
-* No data leakage
+## Determinism Notes
 
----
+The data ingestion and pair generation steps are deterministic, and the seed can be found in the data manifest. They set a fixed random seed at the start of execution. By initializing the random number generator with the same constant seed each time, any operations that rely on randomness, such as shuffling or pairing, will produce the same results across runs. So long as the input data remains unchanged and the seed value is fixed, the output will always be identical.
 
-## Data-Centric Change
+A few simple tests can be run to check determinism:
 
-**Problem:**
-Validation set heavily imbalanced (too many negative pairs)
+`python3 -m tests.test_data_ingest`
 
-**Solution:**
-
-* Keep all positives
-* Sample negatives to 3:1 ratio
-* Deterministic sampling using fixed seed
-
-**Effect:**
-
-* Preserves ROC behavior
-* Reduces computation
-* Produces same optimal threshold
-
----
-
-## Evaluation Pipeline
-
-```text
-baseline_val_sweep
-        ↓
-baseline_test_eval
-        ↓
-validation_sampling (3:1)
-        ↓
-sampled_val_sweep
-        ↓
-sampled_test_eval
-```
-
----
-
-## Final Test Results
-
-* Precision ≈ 0.003
-* Recall ≈ 0.36
-* Balanced Accuracy ≈ 0.53
-
-**Observation:**
-
-* high false positives
-* difficulty distinguishing similar faces
-
----
-
-## Error Analysis
-
-### False Negatives (Same Person)
-
-* variation in pose, lighting, expression
-* model sensitive to intra-class variation
-
-### False Positives (Different People)
-
-* visually similar individuals
-* model relies on coarse features
-
----
-
-## Validation & Reliability
-
-* input validation (pairs, labels, splits)
-* threshold validation
-* metric consistency checks
-* fail-fast errors
-
----
-
-## Tests
-
-Includes:
-
-* unit tests:
-
-  * metrics
-  * threshold logic
-  * validation checks
-
-* integration test:
-
-  * end-to-end pipeline on small synthetic data
-
----
-
-## Report
-
-Located at:
-
-```
-reports/milestone2_report.pdf
-```
-
-Includes:
-
-* ROC curve
-* confusion matrix
-* baseline vs improved comparison
-* error slices
-
----
-
-## Reproducibility
-
-The pipeline is fully deterministic:
-
-* fixed random seed
-* deterministic pair generation
-* reproducible threshold selection
-
-From a clean clone:
-
-1. install dependencies
-2. run pipeline commands
-3. results reproduce exactly
-
-
-
-
+`python3 -m tests.test_pair_generation`
