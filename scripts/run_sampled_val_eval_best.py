@@ -6,9 +6,10 @@ from src.config import OUTPUT_DIR, SCORE_FUNCTION
 from src.evaluation import load_lfw_images, evaluate_pairs
 from src.run_tracker import save_run
 from src.validation import validate_split_name, validate_pairs, validate_labels, validate_pairs_and_labels_match, validate_threshold, validate_metrics
-from src.mlflow_tracker import log_run_to_mlflow
+from src.mlflow_tracker import init_mlflow, log_run_to_mlflow
 def main():
 
+    init_mlflow()
     # Load the best threshold selected during the sampled validation sweep
     best_path = os.path.join(OUTPUT_DIR, "val_sampled_best_threshold.json")
 
