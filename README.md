@@ -1,16 +1,74 @@
 # Face Verification Project
 
+<<<<<<< HEAD
+**Group:** ML Verifier  
+**Group Members:** Moataz Osama Saadeldin Abdelaziz, Ankan Roy  
+=======
 Group: ML Verifier
 
 Group Members: Moataz Osama Saadeldin Abdelaziz, Ankan Roy
 
 ## Overview
 This project implements a face verification system using the Labeled Faces in the Wild (LFW) dataset. It includes:
+>>>>>>> origin/main
 
-- Image ingestion and train/validation/test split.
-- Generation of positive and negative image pairs for verification.
-- Similarity calculations using Cosine Similarity and Euclidean Distance.
-- Comparison of Python loop vs vectorized NumPy implementations for performance benchmarking and correctness checks.
+---
+
+## Overview
+
+This project implements a face verification system using the **Labeled Faces in the Wild (LFW)** dataset.
+
+The system takes two face images and outputs:
+- a similarity score  
+- a same-person vs different-person decision using a threshold  
+
+The project evolves from a deterministic pipeline (Milestone 1) into a **reproducible ML evaluation system** (Milestone 2) with:
+- experiment tracking  
+- threshold calibration  
+- data-centric iteration  
+- error analysis  
+
+---
+
+## Milestone 1 (Baseline System)
+
+- Deterministic dataset ingestion (LFW via TFDS)  
+- Deterministic train / validation / test split  
+- Deterministic pair generation  
+- Similarity computation:
+  - cosine similarity  
+  - euclidean distance  
+- Benchmarking: Python loops vs NumPy  
+
+---
+
+## Milestone 2 (Evaluation System)
+
+### Baseline
+- Threshold selected on full validation set  
+- Rule: **maximize balanced accuracy**  
+- Final evaluation on held-out test set  
+
+### Data-Centric Improvement
+- Keep all positive pairs  
+- Sample negative pairs to **3:1 ratio (negative:positive)**  
+- Implemented in: `src/validation_sampling.py`  
+- Re-run threshold selection on sampled validation  
+- Test set remains unchanged  
+
+---
+
+## Key Result
+
+Both baseline and improved systems produced:
+
+> **Selected threshold = 0.76**
+
+This indicates:
+- stable similarity score ranking  
+- threshold selection is robust to validation sampling  
+
+---
 
 ## Project Structure
 
@@ -19,11 +77,16 @@ This project implements a face verification system using the Labeled Faces in th
 face-verification/
 │
 ├─ src/
-│ ├─ data_ingest.py        # Load and split LFW dataset
-│ ├─ pair_gen.py           # Generate positive and negative image pairs
-│ ├─ similarity.py         # Similarity functions (Python loop & NumPy)
-│ ├─ benchmark.py          # Benchmark script comparing Python loops vs NumPy
-│ └─ config.py             # Configuration file for seeds, ratios and output directory
+│  ├─ data_ingest.py
+│  ├─ pair_gen.py
+│  ├─ similarity.py
+│  ├─ benchmark.py
+│  ├─ evaluation.py
+│  ├─ metrics.py
+│  ├─ validation.py
+│  ├─ validation_sampling.py   # negative sampling (3:1)
+│  ├─ run_tracker.py
+│  └─ config.py
 │
 ├─ scripts/
 │ ├─ run_pipeline.py       # Runs the full pipeline: ingestion, pair generation, benchmarking
@@ -31,8 +94,11 @@ face-verification/
 | ├─ run_pair_gen.py       # Runs image pair generation
 | └─ run_benchmark.py      # Runs similarity module
 │
-├─ notebooks/
-│ └─ notebook.ipynb          
+├─ tests/
+├─ artifacts/
+│   └─ runs/
+├─ reports/
+│   └─ milestone2_report.pdf
 │
 ├─ artifacts/              # Output directory for manifest, pairs and labels
 ├─ pyproject.toml          # Project metadata and dependencies
@@ -48,7 +114,7 @@ face-verification/
 
 ````
 
-## How to Run
+---
 
 This project uses the LFW dataset via TensorFlow Datasets (TFDS).
 

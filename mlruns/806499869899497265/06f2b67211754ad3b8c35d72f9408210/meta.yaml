@@ -1,0 +1,14 @@
+artifact_uri: file:C:/Users/moata/projects/face_verification/mlruns/806499869899497265/06f2b67211754ad3b8c35d72f9408210/artifacts
+end_time: 1773494133090
+entry_point_name: ''
+experiment_id: '806499869899497265'
+lifecycle_stage: active
+run_id: 06f2b67211754ad3b8c35d72f9408210
+run_name: sampled_val_eval_best
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773494132929
+status: 3
+tags: []
+user_id: moata
