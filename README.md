@@ -257,7 +257,10 @@ The pipeline includes:
 Run:
 
 ```bash
-pytest
+python3 -m pytest tests/test_metrics.py -v
+python3 -m pytest tests/test_validation.py -v
+python3 -m pytest tests/test_evaluation.py -v
+python3 -m pytest tests/test_pipeline_integration.py -v
 ```
 
 ---
