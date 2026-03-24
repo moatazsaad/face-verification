@@ -1,11 +1,7 @@
 import numpy as np
 
 # Allowed dataset split names 
-VALID_SPLITS = {"train", "val", "test", "val_sampled"} # Stored as set for fast lookups
-
-# The following functions perform validation checks on the data and parameters used in the validation scripts. 
-# They raise descriptive errors if any issues are found, which helps catch problems early and makes debugging easier. 
-# Each function focuses on a specific aspect of the data or parameters to ensure they meet expected formats and constraints.
+VALID_SPLITS = {"train", "val", "test", "val_sampled"}
 
 
 def validate_split_name(split_name):

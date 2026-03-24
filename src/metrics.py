@@ -40,15 +40,15 @@ def compute_metrics(y_true, y_pred):
 
     total = tp + tn + fp + fn
 
-    accuracy = (tp + tn) / total if total else 0.0                                          # Accuracy 
-    precision = tp / (tp + fp) if (tp + fp) else 0.0                                        # Precision
-    recall = tp / (tp + fn) if (tp + fn) else 0.0                                           # Recall 
-    specificity = tn / (tn + fp) if (tn + fp) else 0.0                                      # Specificity
-    balanced_accuracy = (recall + specificity) / 2 if total else 0.0                        # Balanced Accuracy
-    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0   # F1 Score
+    accuracy = (tp + tn) / total if total else 0.0
+    precision = tp / (tp + fp) if (tp + fp) else 0.0
+    recall = tp / (tp + fn) if (tp + fn) else 0.0
+    specificity = tn / (tn + fp) if (tn + fp) else 0.0
+    balanced_accuracy = (recall + specificity) / 2 if total else 0.0
+    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) else 0.0
 
     return {
-        **counts,                                   # Include unpacked metrics from confusion_counts
+        **counts,
         "accuracy": accuracy,
         "precision": precision,
         "recall": recall,

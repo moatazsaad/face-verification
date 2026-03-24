@@ -1,39 +1,37 @@
+import json
 import numpy as np
+from pathlib import Path
+from src.metrics import apply_threshold, compute_metrics
+from src.run_tracker import save_run
 
-from src.validation import (
-    validate_pairs,
-    validate_labels,
-    validate_pairs_and_labels_match,
-    validate_metrics,
-)
-from src.evaluation import evaluate_pairs
+def test_small_pipeline_integration(tmp_path, monkeypatch):
+    # example
+    scores = np.array([0.9, 0.8, 0.3, 0.1])
+    labels = np.array([1, 1, 0, 0])
+    threshold = 0.5
 
-def test_small_pipeline():
-    img_a = np.array([[1, 0], [0, 0]], dtype=np.float32)
-    img_b = np.array([[1, 0], [0, 0]], dtype=np.float32)
-    img_c = np.array([[0, 1], [0, 0]], dtype=np.float32)
+    preds = apply_threshold(scores, threshold, score_type="cosine")
+    metrics = compute_metrics(labels, preds)
 
-    images = [img_a, img_b, img_c]
-    pairs = np.array([[0, 1], [0, 2]])
-    labels = np.array([1, 0])
+    # Redirect run output to temporary folder
+    monkeypatch.setattr("src.run_tracker.RUNS_DIR", str(tmp_path))
 
-    validate_pairs(pairs)
-    validate_labels(labels)
-    validate_pairs_and_labels_match(pairs, labels)
-
-    result = evaluate_pairs(
-        images=images,
-        pairs=pairs,
-        labels=labels,
-        threshold=0.5,
-        score_type="cosine"
+    save_run(
+        run_id="test_run",
+        split="val",
+        data_version="tiny_fixture",
+        score_function="cosine",
+        threshold_rule="fixed",
+        selected_threshold=threshold,
+        metrics=metrics,
+        note="integration test",
     )
 
-    assert "scores" in result
-    assert "predictions" in result
-    assert "metrics" in result
-    assert len(result["scores"]) == len(labels)
-    assert len(result["predictions"]) == len(labels)
+    out_file = tmp_path / "test_run.json"
+    assert out_file.exists()
 
-    validate_metrics(result["metrics"])
-    assert result["metrics"]["accuracy"] == 1.0
+    data = json.loads(out_file.read_text())
+    assert data["run_id"] == "test_run"
+    assert data["split"] == "val"
+    assert data["metrics"]["tp"] == 2
+    assert data["metrics"]["tn"] == 2
