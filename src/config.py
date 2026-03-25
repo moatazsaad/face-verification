@@ -39,7 +39,7 @@ THRESHOLD_MAX = 1.0
 THRESHOLD_STEP = 0.01
 
 # negative sampling ratio for validation split
-VAL_NEGATIVE_RATIO = 2
+VAL_NEGATIVE_RATIO = 3
 
 # directory for experiment runs
 RUNS_DIR = "artifacts/runs"
