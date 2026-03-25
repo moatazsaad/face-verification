@@ -1,0 +1,182 @@
+[
+    {
+        "run_id": "baseline_val_selected",
+        "timestamp": "2026-03-24T17:41:03.447271",
+        "code_version": "9899365ba0eab3e8f805ae01eee4ee787b9fd278",
+        "split": "val",
+        "data_version": "val_pairs.npy",
+        "score_function": "cosine",
+        "threshold_rule": "maximize balanced_accuracy on validation sweep",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 814,
+            "tn": 624798,
+            "fp": 247491,
+            "fn": 1400,
+            "accuracy": 0.7153914852207482,
+            "precision": 0.003278226374821288,
+            "recall": 0.3676603432700994,
+            "specificity": 0.7162740788889921,
+            "balanced_accuracy": 0.5419672110795457,
+            "f1": 0.006498509095118533
+        },
+        "note": "Validation evaluation using threshold selected from validation sweep",
+        "extra": {
+            "num_pairs": 874503,
+            "threshold_source": "val_best_threshold.json"
+        }
+    },
+    {
+        "run_id": "sampled_val_sweep_neg3x",
+        "timestamp": "2026-03-24T17:45:26.141805",
+        "code_version": "9899365ba0eab3e8f805ae01eee4ee787b9fd278",
+        "split": "val_sampled",
+        "data_version": "val_pairs_sampled.npy",
+        "score_function": "cosine",
+        "threshold_rule": "maximize balanced_accuracy",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 814,
+            "tn": 4834,
+            "fp": 1808,
+            "fn": 1400,
+            "accuracy": 0.6377597109304426,
+            "precision": 0.3104500381388253,
+            "recall": 0.3676603432700994,
+            "specificity": 0.7277928334838903,
+            "balanced_accuracy": 0.5477265883769948,
+            "f1": 0.33664185277088504,
+            "fpr": 0.2722071665161096,
+            "tpr": 0.3676603432700994
+        },
+        "note": "Post change validation threshold sweep using sampled validation negatives",
+        "extra": {
+            "negative_ratio": 3,
+            "sweep_file": "val_sampled_neg3x_threshold_sweep.json",
+            "best_file": "val_sampled_neg3x_best_threshold.json",
+            "threshold_min": -1.0,
+            "threshold_max": 1.0,
+            "threshold_step": 0.01,
+            "num_pairs": 8856,
+            "num_thresholds": 201
+        }
+    },
+    {
+        "run_id": "baseline_test_eval",
+        "timestamp": "2026-03-24T17:44:52.579452",
+        "code_version": "9899365ba0eab3e8f805ae01eee4ee787b9fd278",
+        "split": "test",
+        "data_version": "test_pairs.npy",
+        "score_function": "cosine",
+        "threshold_rule": "maximize balanced_accuracy on validation",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 748,
+            "tn": 620530,
+            "fp": 253211,
+            "fn": 1337,
+            "accuracy": 0.7093623619303377,
+            "precision": 0.0029453573214574006,
+            "recall": 0.3587529976019185,
+            "specificity": 0.7101990177867354,
+            "balanced_accuracy": 0.5344760076943269,
+            "f1": 0.005842745778069394
+        },
+        "note": "Final test evaluation using threshold selected from full validation sweep",
+        "extra": {
+            "threshold_source": "val_best_threshold.json",
+            "num_pairs": 875826
+        }
+    },
+    {
+        "run_id": "baseline_val_sweep",
+        "timestamp": "2026-03-25T12:00:01.936491",
+        "code_version": "00ab223f32cb88dd23904e8d1c9919cbedce9352",
+        "split": "val",
+        "data_version": "val_pairs.npy",
+        "score_function": "cosine",
+        "threshold_rule": "maximize balanced_accuracy",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 814,
+            "tn": 624798,
+            "fp": 247491,
+            "fn": 1400,
+            "accuracy": 0.7153914852207482,
+            "precision": 0.003278226374821288,
+            "recall": 0.3676603432700994,
+            "specificity": 0.7162740788889921,
+            "balanced_accuracy": 0.5419672110795457,
+            "f1": 0.006498509095118533,
+            "fpr": 0.2837259211110079,
+            "tpr": 0.3676603432700994
+        },
+        "note": "Baseline validation threshold sweep on full validation pairs",
+        "extra": {
+            "sweep_file": "val_threshold_sweep.json",
+            "best_file": "val_best_threshold.json",
+            "threshold_min": -1.0,
+            "threshold_max": 1.0,
+            "threshold_step": 0.01,
+            "num_pairs": 874503,
+            "num_thresholds": 201
+        }
+    },
+    {
+        "run_id": "sampled_val_eval_neg3x",
+        "timestamp": "2026-03-24T17:45:49.091413",
+        "code_version": "9899365ba0eab3e8f805ae01eee4ee787b9fd278",
+        "split": "val_sampled",
+        "data_version": "val_pairs_sampled_neg3x.npy",
+        "score_function": "cosine",
+        "threshold_rule": "best threshold from sampled validation sweep",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 814,
+            "tn": 4834,
+            "fp": 1808,
+            "fn": 1400,
+            "accuracy": 0.6377597109304426,
+            "precision": 0.3104500381388253,
+            "recall": 0.3676603432700994,
+            "specificity": 0.7277928334838903,
+            "balanced_accuracy": 0.5477265883769948,
+            "f1": 0.33664185277088504
+        },
+        "note": "Evaluation on sampled validation set using neg3x",
+        "extra": {
+            "ratio_tag": "neg3x",
+            "best_threshold_file": "val_sampled_neg3x_best_threshold.json",
+            "num_pairs": 8856
+        }
+    },
+    {
+        "run_id": "sampled_test_eval_neg3x",
+        "timestamp": "2026-03-24T17:50:19.595292",
+        "code_version": "9899365ba0eab3e8f805ae01eee4ee787b9fd278",
+        "split": "test",
+        "data_version": "test_pairs.npy",
+        "score_function": "cosine",
+        "threshold_rule": "maximize balanced_accuracy on sampled validation",
+        "selected_threshold": 0.7600000000000016,
+        "metrics": {
+            "tp": 748,
+            "tn": 620530,
+            "fp": 253211,
+            "fn": 1337,
+            "accuracy": 0.7093623619303377,
+            "precision": 0.0029453573214574006,
+            "recall": 0.3587529976019185,
+            "specificity": 0.7101990177867354,
+            "balanced_accuracy": 0.5344760076943269,
+            "f1": 0.005842745778069394
+        },
+        "note": "Final test evaluation using threshold from sampled validation (neg3x)",
+        "extra": {
+            "ratio_tag": "neg3x",
+            "threshold_source": "val_sampled_neg3x_best_threshold.json",
+            "sampled_data_version": "val_pairs_sampled_neg3x.npy",
+            "num_pairs": 875826
+        }
+    }
+]
