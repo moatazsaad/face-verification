@@ -35,9 +35,11 @@ def main():
     with open(best_path, "r") as f:
         best = json.load(f)
 
+    # Get selected threshold
     selected_threshold = best["threshold"]
     validate_threshold(selected_threshold)
 
+    # Sampled split
     split_name = "val_sampled"
     validate_split_name(split_name)
 
@@ -45,17 +47,21 @@ def main():
     split_name = "val_sampled"
     validate_split_name(split_name)
 
+    # Get paths to pairs and labels
     pairs_path = os.path.join(OUTPUT_DIR, sampled_pairs_filename())
     labels_path = os.path.join(OUTPUT_DIR, sampled_labels_filename())
 
+    # Check if the paths to the pairs and labels exist
     if not os.path.exists(pairs_path):
         raise FileNotFoundError(f"Missing file: {pairs_path}")
     if not os.path.exists(labels_path):
         raise FileNotFoundError(f"Missing file: {labels_path}")
 
+    # Load pairs and labels
     pairs = np.load(pairs_path)
     labels = np.load(labels_path).astype(int)
 
+    # Validate proper split, pairs, labels, and whether pairs and labels match
     validate_pairs(pairs)
     validate_labels(labels)
     validate_pairs_and_labels_match(pairs, labels)
@@ -67,6 +73,7 @@ def main():
     # Evaluate sampled validation data using the selected threshold
     results = evaluate_pairs(images=images, pairs=pairs, labels=labels, threshold=selected_threshold, score_type=SCORE_FUNCTION,)
 
+    # Validate the metrics of the results
     validate_metrics(results["metrics"])
 
     # Save this run so it appears in the tracked experiments
@@ -109,6 +116,7 @@ def main():
     print(f"Number of pairs: {results['num_pairs']}")
     print("Metrics:")
 
+    # Print results
     for key, value in results["metrics"].items():
         print(f"{key}: {value}")
 

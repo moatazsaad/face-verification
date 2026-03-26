@@ -13,21 +13,25 @@ from src.validation import (
 )
 
 def main():
+    # Ratio tag used for saving filename
     ratio_tag = f"neg{VAL_NEGATIVE_RATIO}x"
+
+    # File containing the threshold selected from the baseline validation sweep
     threshold_source = sampled_best_threshold_filename()
     best_path = os.path.join(OUTPUT_DIR, threshold_source)
 
+    # Raise error if the threshold artifact is missing
     if not os.path.exists(best_path):
         raise FileNotFoundError(f"Missing file: {best_path}")
 
-    # Prevent accidental data leakage:
-    # the threshold shouldn't come from a test artifact
+    # Prevent accidental data leakage
     if "test" in threshold_source.lower():
         raise ValueError("Threshold source must not come from test artifacts")
 
     with open(best_path, "r") as f:
         best = json.load(f)
 
+    # Get the selected threshold
     selected_threshold = best["threshold"]
 
     # Validate that the threshold is within an acceptable numeric range
@@ -37,9 +41,11 @@ def main():
     split_name = "test"
     validate_split_name(split_name)
 
+    # Load pairs and labels
     pairs_path = os.path.join(OUTPUT_DIR, f"{split_name}_pairs.npy")
     labels_path = os.path.join(OUTPUT_DIR, f"{split_name}_labels.npy")
 
+    # Validate proper split, pairs, labels, and whether pairs and labels match
     if not os.path.exists(pairs_path):
         raise FileNotFoundError(f"Missing file: {pairs_path}")
     if not os.path.exists(labels_path):
@@ -48,10 +54,12 @@ def main():
     pairs = np.load(pairs_path)
     labels = np.load(labels_path).astype(int)
 
+    # Validate proper split, pairs, labels, and whether pairs and labels match
     validate_pairs(pairs)
     validate_labels(labels)
     validate_pairs_and_labels_match(pairs, labels)
 
+    # Load all LFW images
     print("Loading images...")
     images = load_lfw_images()
 

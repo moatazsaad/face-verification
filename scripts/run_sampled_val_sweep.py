@@ -31,12 +31,14 @@ def main():
 
     pairs = np.load(pairs_path)
     labels = np.load(labels_path).astype(int)
-
+ 
+    # Validate proper split, pairs, labels, and whether pairs and labels match
     validate_split_name(split_name)
     validate_pairs(pairs)
     validate_labels(labels)
     validate_pairs_and_labels_match(pairs, labels)
 
+    # Load all LFW images
     print("Loading images...")
     images = load_lfw_images()
 
@@ -73,8 +75,7 @@ def main():
         row = {"threshold": float(threshold), "fpr": float(fpr), "tpr": float(tpr), **metrics,}
         sweep_results.append(row)
 
-
-
+    # Get proper sweep name and name with best threshold from config
     sweep_name = sampled_sweep_filename()
     best_name = sampled_best_threshold_filename()
 
@@ -89,10 +90,7 @@ def main():
     # Save the best threshold result
     best_json_path = os.path.join(OUTPUT_DIR, best_name)
     with open(best_json_path, "w") as f:
-        json.dump(best_result, f, indent=2)
-
-
-        
+        json.dump(best_result, f, indent=2)        
 
     # Save tracked run
     save_run(
@@ -129,6 +127,7 @@ def main():
         },
     )
 
+    # Print results
     print("\nBest threshold based on balanced accuracy:")
     for k, v in best_result.items():
         print(f"{k}: {v}")

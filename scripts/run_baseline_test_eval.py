@@ -21,7 +21,7 @@ def main():
     threshold_source = "val_best_threshold.json"
     best_path = os.path.join(OUTPUT_DIR, threshold_source)
 
-    # Fail early if the threshold artifact is missing
+    # Raise error if the threshold artifact is missing
     if not os.path.exists(best_path):
         raise FileNotFoundError(f"Missing file: {best_path}")
 
@@ -98,6 +98,7 @@ def main():
     print(f"Number of pairs: {results['num_pairs']}")
     print("Metrics:")
 
+    # Print results
     for key, value in results["metrics"].items():
         print(f"  {key}: {value}")
 

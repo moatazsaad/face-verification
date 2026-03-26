@@ -50,7 +50,7 @@ ENABLE_MLFLOW = True
 MLFLOW_EXPERIMENT_NAME = "face-verification"
 MLFLOW_TRACKING_URI = "sqlite:///mlflow.db"
 
-# Saves unique run names based on VAL_NEGATIVE_RATIO
+# The following functions save unique run names based on VAL_NEGATIVE_RATIO
 
 def sampled_pairs_filename():
     return f"val_pairs_sampled_neg{VAL_NEGATIVE_RATIO}x.npy"

@@ -69,7 +69,7 @@ face-verification/
 │ └─ config.py
 │
 ├─ scripts/
-│ ├─ run_pipeline.py
+│ ├─ run_pipeline.py 
 │ ├─ run_data_ingest.py
 │ ├─ run_pair_gen.py
 │ ├─ run_benchmark.py
@@ -101,6 +101,12 @@ pip install -r requirements.txt
 ---
 
 ### Milestone 1 Pipeline
+
+```bash
+python3 -m venv tf_env
+source tf_env/bin/activate
+pip install -r requirements.txt
+```
 
 ```bash
 python -m scripts.run_data_ingest
@@ -139,8 +145,16 @@ python -m scripts.run_sampled_test_eval
 
 ### Run Tests
 
+Unit Tests:
 ```bash
-pytest
+python3 -m pytest tests/test_metrics.py -v
+python3 -m pytest tests/test_validation.py -v
+python3 -m pytest tests/test_evaluation.py -v
+```
+
+Integration Test:
+```bash
+python3 -m pytest tests/test_pipeline_integration.py -v
 ```
 
 ---
@@ -150,7 +164,7 @@ pytest
 * `artifacts/train_pairs.npy`, `train_labels.npy`
 * `artifacts/val_pairs.npy`, `val_labels.npy`
 * `artifacts/test_pairs.npy`, `test_labels.npy`
-* `artifacts/runs/` → tracked experiment runs
+* `artifacts/runs/` -> tracked experiment runs
 * threshold sweep and best-threshold JSON files
 * benchmarking outputs
 

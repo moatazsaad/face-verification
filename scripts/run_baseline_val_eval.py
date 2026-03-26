@@ -16,6 +16,7 @@ def main():
     # Load the best threshold selected during the validation sweep
     best_path = os.path.join(OUTPUT_DIR, "val_best_threshold.json")
 
+    # Check if path to best validation threshold exists
     if not os.path.exists(best_path):
         raise FileNotFoundError(f"Missing file: {best_path}")
 
@@ -29,6 +30,7 @@ def main():
     pairs_path = os.path.join(OUTPUT_DIR, f"{split_name}_pairs.npy")
     labels_path = os.path.join(OUTPUT_DIR, f"{split_name}_labels.npy")
 
+    # Check if paths to validation pairs and labels exists
     if not os.path.exists(pairs_path):
         raise FileNotFoundError(f"Missing file: {pairs_path}")
     if not os.path.exists(labels_path):
@@ -41,7 +43,7 @@ def main():
     validate_labels(labels)
     validate_pairs_and_labels_match(pairs, labels)
 
-    # Load all LFW images so pair indices can access them
+    # Load all LFW images
     print("Loading images...")
     images = load_lfw_images()
 
@@ -79,6 +81,7 @@ def main():
     print(f"Number of pairs: {results['num_pairs']}")
     print("Metrics:")
 
+    # Print results
     for key, value in results["metrics"].items():
         print(f"  {key}: {value}")
 

@@ -11,13 +11,13 @@ from src.mlflow_tracker import init_mlflow
 
 def main():
     
-    # init_mlflow()
     if ENABLE_MLFLOW:
         try:
             init_mlflow()           
         except Exception as e:
             print(f"Error initializing MLflow: {e}")
     
+    # Run threshold sweep on validation set
     split_name = "val"
 
     pairs_path = os.path.join(OUTPUT_DIR, f"{split_name}_pairs.npy")
@@ -33,22 +33,27 @@ def main():
     pairs = np.load(pairs_path)
     labels = np.load(labels_path).astype(int)
     
+    # Validate proper split, pairs, labels, and whether pairs and labels match
     validate_split_name(split_name)
     validate_pairs(pairs)
     validate_labels(labels)
     validate_pairs_and_labels_match(pairs, labels)
     
+    # Load all LFW images
     print("Loading images...")
     images = load_lfw_images()
 
+    # Compute scores
     print("Computing scores once...")
     scores = compute_scores(images, pairs, score_type=SCORE_FUNCTION)
     
     # Validate score count/shape after score computation
     validate_scores(scores, pairs)
-                    
+
+    # Generate thresholds           
     thresholds = np.arange(THRESHOLD_MIN, THRESHOLD_MAX + THRESHOLD_STEP, THRESHOLD_STEP)
-    
+
+    # Save an array of sweep results
     sweep_results = []
 
     print("Sweeping thresholds...")
@@ -66,6 +71,7 @@ def main():
         # True positive rate equals recall
         tpr = metrics["recall"]
 
+        # Append metrics to the array of sweep results
         row = {"threshold": float(threshold), "fpr": float(fpr), "tpr": float(tpr), **metrics,}
         sweep_results.append(row)
 
@@ -118,6 +124,7 @@ def main():
         }
     )
 
+    # Print results
     print("\nBest threshold based on balanced accuracy:")
     for k, v in best_result.items():
         print(f"{k}: {v}")
