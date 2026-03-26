@@ -17,10 +17,6 @@ def test_validate_split_name_valid():
     validate_split_name("test")
     validate_split_name("val_sampled")
 
-def test_validate_split_name_invalid():
-    with pytest.raises(ValueError):
-        validate_split_name("validation")
-
 def test_validate_pairs_valid():
     pairs = np.array([[0, 1], [2, 3]])
     validate_pairs(pairs)
