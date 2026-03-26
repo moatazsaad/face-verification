@@ -98,8 +98,6 @@ face-verification/
 pip install -r requirements.txt
 ````
 
----
-
 ### Milestone 1 Pipeline
 
 ```bash
@@ -120,8 +118,6 @@ Or full pipeline:
 python -m scripts.run_pipeline
 ```
 
----
-
 ### Milestone 2 Pipeline
 
 #### Baseline
@@ -141,9 +137,6 @@ python -m scripts.run_sampled_val_eval
 python -m scripts.run_sampled_test_eval
 ```
 
----
-
-### Run Tests
 ---
 
 ## Tests
@@ -269,7 +262,7 @@ The pipeline includes:
 ## Milestone 2 Report
 
 ```
-reports/milestone2_report.pdf
+reports/Milestone 2 Evaluation Report.pdf
 ```
 
 Includes:
@@ -291,7 +284,7 @@ From a clean clone:
 
 Final reported result:
 
-* run: `sampled_test_eval`
+* run: `run_sampled_test_eval.py`
 * threshold: 0.76
 
 ---
