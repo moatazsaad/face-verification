@@ -131,7 +131,7 @@ python -m scripts.run_baseline_test_eval
 #### Data-Centric Improvement
 
 ```bash
-python -m scripts.sample_validation_pairs
+python -m scripts.run_validation_sampling
 python -m scripts.run_sampled_val_sweep
 python -m scripts.run_sampled_val_eval
 python -m scripts.run_sampled_test_eval
