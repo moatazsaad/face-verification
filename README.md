@@ -144,15 +144,18 @@ python -m scripts.run_sampled_test_eval
 ---
 
 ### Run Tests
+---
 
-Unit Tests:
+## Tests
+
+Unit Tests (metrics, threshold logic, validation):
 ```bash
 python3 -m pytest tests/test_metrics.py -v
 python3 -m pytest tests/test_validation.py -v
 python3 -m pytest tests/test_evaluation.py -v
 ```
 
-Integration Test:
+Integration Test (end-to-end pipeline check):
 ```bash
 python3 -m pytest tests/test_pipeline_integration.py -v
 ```
@@ -260,22 +263,6 @@ The pipeline includes:
 * score consistency checks
 * metric validation
 * fail-fast error handling
-
----
-
-## Tests
-
-* Unit tests (metrics, threshold logic, validation)
-* Integration test (end-to-end pipeline check)
-
-Run:
-
-```bash
-python3 -m pytest tests/test_metrics.py -v
-python3 -m pytest tests/test_validation.py -v
-python3 -m pytest tests/test_evaluation.py -v
-python3 -m pytest tests/test_pipeline_integration.py -v
-```
 
 ---
 
