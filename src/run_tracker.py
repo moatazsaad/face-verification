@@ -12,7 +12,7 @@ def get_git_commit():
         return "unknown"
 
 # Save run details to a JSON file in the runs directory, including metadata and metrics.
-def save_run(run_id, split, data_version, score_function, threshold_rule, selected_threshold, metrics, note, extra=None):
+def save_run(run_id, split, data_version, score_function, threshold_rule, selected_threshold, metrics, confidence_summary, note, extra=None):
     os.makedirs(RUNS_DIR, exist_ok=True)
 
     # Create a unique timestamp for the run
@@ -27,6 +27,7 @@ def save_run(run_id, split, data_version, score_function, threshold_rule, select
         "threshold_rule": threshold_rule,
         "selected_threshold": selected_threshold,
         "metrics": metrics,
+        "confidence_summary": confidence_summary,
         "note": note,
     }
 

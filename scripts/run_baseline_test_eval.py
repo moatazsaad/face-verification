@@ -77,13 +77,14 @@ def main():
 
     # Save the tracked baseline final test run
     save_run(
-        run_id="baseline_test_eval",
+        run_id=f"baseline_test_eval_{SCORE_FUNCTION}",
         split="test",
         data_version="test_pairs.npy",
         score_function=SCORE_FUNCTION,
         threshold_rule="maximize balanced_accuracy on validation",
         selected_threshold=selected_threshold,
         metrics=results["metrics"],
+        confidence_summary=results["confidence_summary"],
         note="Final test evaluation using threshold selected from full validation sweep",
         extra={
             "threshold_source": threshold_source,

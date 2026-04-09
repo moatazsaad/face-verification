@@ -3,3 +3,9 @@ tensorflow
 tensorflow-datasets
 mlflow
 pytest
+
+# Milestone 3
+insightface
+onnx==1.16.0
+onnxruntime
+ml_dtypes==0.3.2

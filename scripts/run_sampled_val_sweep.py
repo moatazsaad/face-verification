@@ -94,7 +94,7 @@ def main():
 
     # Save tracked run
     save_run(
-        run_id=f"sampled_val_sweep_neg{VAL_NEGATIVE_RATIO}x",
+        run_id=f"sampled_val_sweep_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}",
         split="val_sampled",
         data_version="val_pairs_sampled.npy",
         score_function=SCORE_FUNCTION,
@@ -114,6 +114,7 @@ def main():
             "fpr": best_result["fpr"],
             "tpr": best_result["tpr"],
         },
+        confidence_summary = "N/A for threshold sweep",
         note="Post change validation threshold sweep using sampled validation negatives",
         extra={
             "negative_ratio": VAL_NEGATIVE_RATIO,

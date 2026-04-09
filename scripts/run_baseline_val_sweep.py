@@ -92,7 +92,7 @@ def main():
 
     # Save tracked run
     save_run(
-        run_id="baseline_val_sweep",
+        run_id=f"baseline_val_sweep_{SCORE_FUNCTION}",
         split="val",
         data_version="val_pairs.npy",
         score_function=SCORE_FUNCTION,
@@ -112,6 +112,7 @@ def main():
             "fpr": best_result["fpr"],
             "tpr": best_result["tpr"],
         },
+        confidence_summary = "N/A for threshold sweep",
         note="Baseline validation threshold sweep on full validation pairs",
         extra={
             "sweep_file": f"{split_name}_threshold_sweep.json",
