@@ -78,13 +78,14 @@ def main():
 
     # Save this run so it appears in the tracked experiments
     save_run(
-        run_id=f"sampled_val_eval_neg{VAL_NEGATIVE_RATIO}x",
+        run_id=f"sampled_val_eval_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}",
         split="val_sampled",
         data_version=sampled_pairs_filename(),
         score_function=SCORE_FUNCTION,
         threshold_rule="best threshold from sampled validation sweep",
         selected_threshold=selected_threshold,
         metrics=results["metrics"],
+        confidence_summary=results["confidence_summary"],
         note=f"Evaluation on sampled validation set using neg{VAL_NEGATIVE_RATIO}x",
         extra={
             "ratio_tag": f"neg{VAL_NEGATIVE_RATIO}x",
@@ -93,22 +94,7 @@ def main():
         }
     )
     
-    # Alternative way; Log this evaluation run to MLflow for tracking
-    log_run_to_mlflow(
-                run_id=f"sampled_val_eval_3{VAL_NEGATIVE_RATIO}x",
-                split="val_sampled",
-                data_version=sampled_pairs_filename(),
-                score_function=SCORE_FUNCTION,
-                threshold_rule="best threshold from sampled validation sweep",
-                selected_threshold=selected_threshold,
-                metrics=results["metrics"],
-                note=f"Evaluation on sampled validation set using neg{VAL_NEGATIVE_RATIO}x",
-                extra={
-                    "ratio_tag": f"neg{VAL_NEGATIVE_RATIO}x",
-                    "best_threshold_file": sampled_best_threshold_filename(),
-                    "num_pairs": int(len(pairs)),
-                }
-            )
+    
     # Print results to terminal
     print("Split: val_sampled")
     print(f"Score type: {results['score_type']}")

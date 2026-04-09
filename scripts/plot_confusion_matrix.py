@@ -3,12 +3,12 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.config import RUNS_DIR, VAL_NEGATIVE_RATIO
+from src.config import RUNS_DIR, VAL_NEGATIVE_RATIO, SCORE_FUNCTION
 
 
 def main():
     # Load the final tracked test run
-    run_path = os.path.join(RUNS_DIR, f"sampled_test_eval_neg{VAL_NEGATIVE_RATIO}x.json")
+    run_path = os.path.join(RUNS_DIR, f"sampled_test_eval_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}.json")
 
     with open(run_path, "r") as f:
         run_data = json.load(f)

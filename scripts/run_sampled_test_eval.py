@@ -77,13 +77,14 @@ def main():
 
     # Save the tracked run for experiment tracking
     save_run(
-        run_id=f"sampled_test_eval_{ratio_tag}",
+        run_id=f"sampled_test_eval_{ratio_tag}_{SCORE_FUNCTION}",
         split="test",
         data_version="test_pairs.npy",
         score_function=SCORE_FUNCTION,
         threshold_rule="maximize balanced_accuracy on sampled validation",
         selected_threshold=selected_threshold,
         metrics=results["metrics"],
+        confidence_summary=results["confidence_summary"],
         note=f"Final test evaluation using threshold from sampled validation ({ratio_tag})",
         extra={
             "ratio_tag": ratio_tag,

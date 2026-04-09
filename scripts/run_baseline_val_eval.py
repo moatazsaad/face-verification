@@ -60,13 +60,14 @@ def main():
 
     # Save this experiment as a tracked run
     save_run(
-        run_id="baseline_val_selected",
+        run_id=f"baseline_val_selected_{SCORE_FUNCTION}",
         split="val",
         data_version="val_pairs.npy",
         score_function=SCORE_FUNCTION,
         threshold_rule="maximize balanced_accuracy on validation sweep",
         selected_threshold=selected_threshold,
         metrics=results["metrics"],
+        confidence_summary=results["confidence_summary"],
         note="Validation evaluation using threshold selected from validation sweep",
         extra={
             "num_pairs": int(len(pairs)),
