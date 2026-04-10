@@ -40,7 +40,7 @@ def compute_scores(images, pairs, score_type=SCORE_FUNCTION):
         # Milestone 3 dependencies
         from src.generate_image_embeddings import precompute_embeddings, compute_scores_from_embeddings
         # If embeddings don't exist in artifacts, do the precomputed embeddings, else load the embeddings and generate scores
-        embeddings_path = f"{OUTPUT_DIR}/mobilefacenet_embeddings.npy"
+        embeddings_path = f"{OUTPUT_DIR}/buffalo_s_embeddings.npy"
         if not os.path.exists(embeddings_path):
             print("Precomputing embeddings for the first time...")
             embeddings = precompute_embeddings(images, save_path=embeddings_path)
@@ -55,7 +55,7 @@ def compute_scores(images, pairs, score_type=SCORE_FUNCTION):
             compute_scores_from_embeddings,
         )
 
-        embeddings_path = f"{OUTPUT_DIR}/mobilefacenet_embeddings.npy"
+        embeddings_path = f"{OUTPUT_DIR}/buffalo_s_embeddings.npy"
 
         if not os.path.exists(embeddings_path):
             print("Precomputing embeddings for the first time...")
