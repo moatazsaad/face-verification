@@ -27,7 +27,7 @@ PAIR_POLICY_CONFIG = {
 
 #  Settings 
 
-SCORE_FUNCTION = "cosine" # similarity score used by the verifier (eg. "cosine", "euclidean", "cosine_with_embeddings")
+SCORE_FUNCTION = "cosine_with_embeddings" # similarity score used by the verifier (eg. "cosine", "euclidean", "cosine_with_embeddings")
 SCORE_DIRECTION = "higher_is_more_similar" # interpretation of score
 THRESHOLD_SELECTION_SPLIT = "val" # split used to choose threshold
 FINAL_EVAL_SPLIT = "test" # split used for final reporting
