@@ -1,29 +1,43 @@
-# Python-generated files
+# Python cache
 __pycache__/
-*.py[oc]
+*.py[cod]
+*.pyo
+
+# Build artifacts
 build/
 dist/
+*.egg-info/
 wheels/
-*.egg-info
-
-# mlflow
-mlruns/
-mlflow.db
 
 # Virtual environments
-.venv
+.venv/
+venv/
+env/
 tf_env/
 
-# Artifacts and outputs
+# ML / experiment artifacts
+mlruns/
+mlflow.db
 artifacts/
 data/
 
-# OS-specific files
-.DS_Store
+# Git
+.git/
+.gitignore
 
-# Windows-specific files
+# OS files
+.DS_Store
 Thumbs.db
 
-# Build files
-Dockerfile
-.dockerignore
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Optional: large files
+*.csv
+*.parquet
+*.h5
+*.pt
+*.onnx
