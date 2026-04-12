@@ -1,0 +1,29 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# mlflow
+mlruns/
+mlflow.db
+
+# Virtual environments
+.venv
+tf_env/
+
+# Artifacts and outputs
+artifacts/
+data/
+
+# OS-specific files
+.DS_Store
+
+# Windows-specific files
+Thumbs.db
+
+# Build files
+Dockerfile
+.dockerignore

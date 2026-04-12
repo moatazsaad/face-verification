@@ -25,15 +25,16 @@ PAIR_POLICY_CONFIG = {
     }
 }
 
-#  Settings 
+#  Milestone 3 settings 
 
-SCORE_FUNCTION = "cosine_with_embeddings" # similarity score used by the verifier (eg. "cosine", "euclidean", "cosine_with_embeddings")
+SCORE_FUNCTION = "cosine_with_embeddings" # similarity score used by the verifier
 SCORE_DIRECTION = "higher_is_more_similar" # interpretation of score
 THRESHOLD_SELECTION_SPLIT = "val" # split used to choose threshold
 FINAL_EVAL_SPLIT = "test" # split used for final reporting
+OPERATING_THRESHOLD = 0.29 # threshold selected 
 
 # threshold sweep range for validation experiments
-THRESHOLD_MIN = -1.0
+THRESHOLD_MIN = 0.0
 THRESHOLD_MAX = 1.0
 THRESHOLD_STEP = 0.01
 
@@ -57,8 +58,14 @@ def sampled_pairs_filename():
 def sampled_labels_filename():
     return f"val_labels_sampled_neg{VAL_NEGATIVE_RATIO}x.npy"
 
+# def sampled_sweep_filename():
+#     return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_threshold_sweep.json"
+
+# def sampled_best_threshold_filename():
+#     return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_best_threshold.json"
+
 def sampled_sweep_filename():
-    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_threshold_sweep.json"
+    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}_threshold_sweep.json"
 
 def sampled_best_threshold_filename():
-    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_best_threshold.json"
+    return f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}_best_threshold.json"

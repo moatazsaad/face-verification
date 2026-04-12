@@ -43,10 +43,34 @@ def arr_to_uint8_rgb(arr):
     return out
 
 
-# Returns a 512-d embedding or None if no face is detected
+# Following three functions returns a 512-d embedding or None if no face is detected
 # face.embedding is expected to be a 512-dimensional vector
 # InsightFace expects BGR input, so we have to convert from RGB to BGR before passing to the model
+
+# Preprocessing image helper
+def preprocess_image(image):
+    img_rgb = arr_to_uint8_rgb(image)
+    img_bgr = img_rgb[:, :, ::-1]
+    return img_bgr
+
+# Embedding extraction helper
+def extract_embedding_from_preprocessed(img_bgr):
+    faces = app.get(img_bgr)
+    if len(faces) == 0:
+        return None
+    face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
+    emb = face.embedding.astype(np.float32)
+    norm = np.linalg.norm(emb)
+    if norm > 0:
+        emb = emb / norm
+    return emb
+
+# Main embedding function that calls on preprocessing and embedding extraction helpers
 def get_embedding(image):
+    img_bgr = preprocess_image(image)
+    return extract_embedding_from_preprocessed(img_bgr)
+
+'''def get_embedding(image):
     img_rgb = arr_to_uint8_rgb(image)
     img_bgr = img_rgb[:, :, ::-1]
 
@@ -64,16 +88,12 @@ def get_embedding(image):
     if norm > 0:
         emb = emb / norm
 
-    return emb
+    return emb'''
 
 
 # Compputes one embedding per image for speedup, since embeddings are reused accross many pairs
 # Saves embeddings to disc
 def precompute_embeddings(images, save_path=None):
-    """
-    Computes one embedding per image.
-    This is the main speed fix.
-    """
     embeddings = []
     for i, img in enumerate(images):
         # Tracker for reassurance purposes
