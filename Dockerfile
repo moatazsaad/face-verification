@@ -17,5 +17,9 @@ RUN pip install uv
 # Install python deps
 RUN uv sync
 
-# CMD ["python", "-m", "src.run_inference_cli"]
-ENTRYPOINT ["/app/.venv/bin/python", "-m", "src.run_inference_cli"]
+# CMD ["python", "-m", "scripts.run_inference_cli"]
+ENTRYPOINT ["/app/.venv/bin/python", "-m", "scripts.run_inference_cli"]
+
+# Install requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
