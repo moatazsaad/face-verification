@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Git
+.git/
+.gitignore
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Testing / cache
+.pytest_cache/
+.mypy_cache/
+.cache/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local artifacts and logs
+artifacts/
+mlruns/
+mlflow.db
+*.log
+
+# Data and model caches
+data/
+datasets/
+*.npy
+*.npz
+*.pt
+*.pth
+*.onnx
+
+# Docker leftovers
+*.tar
+
+# Keep examples if you want them available in the container
+# If examples are large, remove them and mount them instead

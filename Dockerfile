@@ -1,21 +1,38 @@
-FROM python:3.10
+FROM python:3.11-slim
+
+# Avoid interactive prompts and reduce Python buffering issues
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 WORKDIR /app
 
-COPY . .
-
-# Install system dependencies 
-RUN apt-get update && apt-get install -y \
+# System packages commonly needed by Pillow / InsightFace / OpenCV
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    gcc \
-    g++ \
+    curl \
+    git \
+    libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install uv
-RUN pip install uv
+# Upgrade pip first
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 
-# Install python deps
-RUN uv sync
+# Copy dependency file first for better layer caching
+COPY requirements.txt /app/requirements.txt
 
-# CMD ["python", "-m", "src.run_inference_cli"]
-ENTRYPOINT ["/app/.venv/bin/python", "-m", "src.run_inference_cli"]
+# Install Python dependencies
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copy the rest of the project
+COPY . /app
+
+# Create artifact directory in case your code expects it
+RUN mkdir -p /app/artifacts
+
+# Default command runs your CLI
+ENTRYPOINT ["python", "-m", "src.run_inference_cli"]

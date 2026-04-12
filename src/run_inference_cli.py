@@ -4,7 +4,6 @@ import numpy as np
 from PIL import Image
 from src.config import SCORE_FUNCTION, OPERATING_THRESHOLD, OUTPUT_DIR
 from src.confidence_scoring import compute_confidence_from_scores
-from src.confidence_scoring import compute_confidence_from_score
 from src.evaluation import compute_scores
 from src.metrics import apply_threshold
 from src.similarity import cosine_similarity, euclidean_distance
