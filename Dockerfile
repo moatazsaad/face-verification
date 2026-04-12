@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.10
 
 WORKDIR /app
 
@@ -17,9 +17,5 @@ RUN pip install uv
 # Install python deps
 RUN uv sync
 
-# CMD ["python", "-m", "scripts.run_inference_cli"]
-ENTRYPOINT ["/app/.venv/bin/python", "-m", "scripts.run_inference_cli"]
-
-# Install requirements.txt
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# CMD ["python", "-m", "src.run_inference_cli"]
+ENTRYPOINT ["/app/.venv/bin/python", "-m", "src.run_inference_cli"]
