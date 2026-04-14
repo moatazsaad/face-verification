@@ -142,9 +142,9 @@ The inference pipeline consists of:
 
 ---
 
-## How to Run
+### How to Run
 
-### Local Setup
+#### Local Setup
  
 **Run CLI Inference**
 python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
