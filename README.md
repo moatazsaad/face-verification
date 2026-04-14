@@ -144,22 +144,22 @@ The inference pipeline consists of:
 
 ### How to Run
  
-**Run CLI Inference**
+**Run CLI Inference:**
 ```bash
 python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
 ```
  
-**Run Load Test (Concurrency)**
+**Run Load Test (Concurrency):**
 ```bash
 python -m scripts.run_load_test --pairs_file examples/load_test_pairs.json --requests 10 --workers 3
 ```
  
-**Run Tests**
+**Run Tests:**
 ```bash
 python -m pytest
 ```
  
-**Docker**
+**Docker:**
 
 Build:
 ```bash
@@ -171,7 +171,7 @@ Run:
 docker run --rm face-verification --image1 "/app/examples/sample1.jpg" --image2 "/app/examples/sample2.jpg"
 ```
  
-**Artifact Locations**
+**Artifact Locations:**
 
 Example images:
 ```bash
@@ -187,14 +187,16 @@ Load test output:
 
 printed in terminal summary
  
-**Embeddings**
+**Embeddings:**
+
 The embedding module, generate_image_embeddings.py, first precomputes the embeddings of each image in our chosen split, in this case, the validation split. Afterwards, we have a function to compute the cosine similarity or Euclidean distance of the image pairs based on these embeddings. After running our threshold sweeps on these embeddings, we have the following results:
 
 Baseline Validation Sweep’s Selected Threshold: 0.35
 Sampled Validation Sweep’s Selected Threshold: 0.29
 
  
-**Confidence**
+**Confidence:**
+
 The CLI reports a confidence value between 0 and 1. This confidence is not a probability, but rather a simple margin-based score that shows how far the similarity score is from the operating threshold.
 
 For the embedding-based cosine system:
@@ -223,7 +225,7 @@ Example:
 •	if the score is 0.95 or -0.10, confidence is high because it is far from the threshold
  
 
-**Design Notes**
+**Design Notes:**
 
 •	Embedding model: InsightFace buffalo_s (fast and lightweight)
 
