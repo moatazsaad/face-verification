@@ -1,11 +1,5 @@
 FROM python:3.11-slim
 
-# Avoid interactive prompts and reduce Python buffering issues
-ENV DEBIAN_FRONTEND=noninteractive
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
-
 WORKDIR /app
 
 # System packages commonly needed by Pillow / InsightFace / OpenCV
