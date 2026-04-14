@@ -7,8 +7,12 @@ from src.confidence_scoring import compute_confidence_from_scores
 from src.evaluation import compute_scores
 from src.metrics import apply_threshold
 from src.similarity import cosine_similarity, euclidean_distance
+import warnings
 
-
+# Suppress warnings for clean CLI outputs
+warnings.filterwarnings("ignore", category=UserWarning)
+warnings.filterwarnings("ignore", category=FutureWarning)  
+    
 # Load image and convert it to RGB
 def load_image(path):
     return np.array(Image.open(path).convert("RGB"))
@@ -92,6 +96,8 @@ def run_single_inference(img1, img2, pair_id=None):
     result = {
         "pair_id": pair_id,
         "score": score,
+        "score_type": SCORE_FUNCTION,
+        "threshold": OPERATING_THRESHOLD,
         "decision": decision_str,
         "confidence": confidence,
         "preprocessing_time_ms": f"{compute_latency_ms(preprocessing_time):.2f}",

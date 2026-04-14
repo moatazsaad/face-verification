@@ -1,16 +1,16 @@
 import os
 import json
 import matplotlib.pyplot as plt
-from src.config import OUTPUT_DIR, VAL_NEGATIVE_RATIO
+from src.config import OUTPUT_DIR, VAL_NEGATIVE_RATIO, SCORE_FUNCTION
 
 
 def load_roc(path):
     with open(path, "r") as f:
         data = json.load(f)
 
-    fpr = [row["fpr"] for row in data]
-    tpr = [row["tpr"] for row in data]
-
+    pts = sorted(((row["fpr"], row["tpr"]) for row in data), key=lambda x: x[0])
+    fpr = [0.0] + [p[0] for p in pts] + [1.0]
+    tpr = [0.0] + [p[1] for p in pts] + [1.0]
     return fpr, tpr
 
 
@@ -18,7 +18,7 @@ def main():
 
     # Paths to sweep files
     val_path = os.path.join(OUTPUT_DIR, "val_threshold_sweep.json")
-    sampled_path = os.path.join(OUTPUT_DIR, f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_threshold_sweep.json")
+    sampled_path = os.path.join(OUTPUT_DIR, f"val_sampled_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}_threshold_sweep.json")
 
     # Load ROC points
     val_fpr, val_tpr = load_roc(val_path)

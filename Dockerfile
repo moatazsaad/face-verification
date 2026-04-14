@@ -25,8 +25,8 @@ RUN pip install --no-cache-dir -r /app/requirements.txt
 # Copy the rest of the project
 COPY . /app
 
-# Create artifact directory in case your code expects it
-RUN mkdir -p /app/artifacts
+# Create artifact directory 
+# RUN mkdir -p /app/artifacts
 
 # Default command runs your CLI
 ENTRYPOINT ["python", "-m", "src.run_inference_cli"]

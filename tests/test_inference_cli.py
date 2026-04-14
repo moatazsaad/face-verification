@@ -30,6 +30,6 @@ def test_cli_runs():
     assert "score" in result.stdout.lower()
     assert "threshold" in result.stdout.lower()
     assert "confidence" in result.stdout.lower()
-    assert "latency" in result.stdout.lower()
+    assert "total_time_ms" in result.stdout.lower()
     
     
