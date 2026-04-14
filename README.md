@@ -192,6 +192,7 @@ printed in terminal summary
 The embedding module, generate_image_embeddings.py, first precomputes the embeddings of each image in our chosen split, in this case, the validation split. Afterwards, we have a function to compute the cosine similarity or Euclidean distance of the image pairs based on these embeddings. After running our threshold sweeps on these embeddings, we have the following results:
 
 Baseline Validation Sweep’s Selected Threshold: 0.35
+
 Sampled Validation Sweep’s Selected Threshold: 0.29
 
  
