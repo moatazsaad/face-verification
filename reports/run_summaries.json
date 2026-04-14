@@ -1,0 +1,204 @@
+[
+    {
+        "run_id": "baseline_val_sweep_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:39:56.378183",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "val",
+        "data_version": "val_pairs.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "maximize balanced_accuracy",
+        "selected_threshold": 0.33,
+        "metrics": {
+            "tp": 2209,
+            "tn": 872219,
+            "fp": 70,
+            "fn": 5,
+            "accuracy": 0.9999142370009022,
+            "precision": 0.9692847740236946,
+            "recall": 0.9977416440831075,
+            "specificity": 0.9999197513668062,
+            "balanced_accuracy": 0.9988306977249568,
+            "f1": 0.9833073670153573,
+            "fpr": 8.024863319381535e-05,
+            "tpr": 0.9977416440831075
+        },
+        "confidence_summary": "N/A for threshold sweep",
+        "note": "Baseline validation threshold sweep on full validation pairs",
+        "extra": {
+            "sweep_file": "val_threshold_sweep.json",
+            "best_file": "val_best_threshold.json",
+            "threshold_min": 0.0,
+            "threshold_max": 1.0,
+            "threshold_step": 0.01,
+            "num_pairs": 874503,
+            "num_thresholds": 101
+        }
+    },
+    {
+        "run_id": "baseline_val_selected_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:40:30.504855",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "val",
+        "data_version": "val_pairs.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "maximize balanced_accuracy on validation sweep",
+        "selected_threshold": 0.33,
+        "metrics": {
+            "tp": 2209,
+            "tn": 872219,
+            "fp": 70,
+            "fn": 5,
+            "accuracy": 0.9999142370009022,
+            "precision": 0.9692847740236946,
+            "recall": 0.9977416440831075,
+            "specificity": 0.9999197513668062,
+            "balanced_accuracy": 0.9988306977249568,
+            "f1": 0.9833073670153573
+        },
+        "confidence_summary": {
+            "mean_confidence": 0.9986183047294617,
+            "min_confidence": 0.0005652506952174008,
+            "max_confidence": 1.0
+        },
+        "note": "Validation evaluation using threshold selected from validation sweep",
+        "extra": {
+            "num_pairs": 874503,
+            "threshold_source": "val_best_threshold.json"
+        }
+    },
+    {
+        "run_id": "baseline_test_eval_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:41:00.356355",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "test",
+        "data_version": "test_pairs.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "maximize balanced_accuracy on validation",
+        "selected_threshold": 0.33,
+        "metrics": {
+            "tp": 2074,
+            "tn": 873716,
+            "fp": 25,
+            "fn": 11,
+            "accuracy": 0.999958895945085,
+            "precision": 0.9880895664602192,
+            "recall": 0.9947242206235012,
+            "specificity": 0.9999713874019875,
+            "balanced_accuracy": 0.9973478040127444,
+            "f1": 0.991395793499044
+        },
+        "confidence_summary": {
+            "mean_confidence": 0.9985951781272888,
+            "min_confidence": 0.0027457871474325657,
+            "max_confidence": 1.0
+        },
+        "note": "Final test evaluation using threshold selected from full validation sweep",
+        "extra": {
+            "threshold_source": "val_best_threshold.json",
+            "num_pairs": 875826
+        }
+    },
+    {
+        "run_id": "sampled_val_sweep_neg3x_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:41:30.050377",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "val_sampled",
+        "data_version": "val_pairs_sampled.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "maximize balanced_accuracy",
+        "selected_threshold": 0.26,
+        "metrics": {
+            "tp": 2209,
+            "tn": 6642,
+            "fp": 0,
+            "fn": 5,
+            "accuracy": 0.9994354110207768,
+            "precision": 1.0,
+            "recall": 0.9977416440831075,
+            "specificity": 1.0,
+            "balanced_accuracy": 0.9988708220415538,
+            "f1": 0.998869545557314,
+            "fpr": 0.0,
+            "tpr": 0.9977416440831075
+        },
+        "confidence_summary": "N/A for threshold sweep",
+        "note": "Post change validation threshold sweep using sampled validation negatives",
+        "extra": {
+            "negative_ratio": 3,
+            "sweep_file": "val_sampled_neg3x_cosine_with_embeddings_threshold_sweep.json",
+            "best_file": "val_sampled_neg3x_cosine_with_embeddings_best_threshold.json",
+            "threshold_min": 0.0,
+            "threshold_max": 1.0,
+            "threshold_step": 0.01,
+            "num_pairs": 8856,
+            "num_thresholds": 101
+        }
+    },
+    {
+        "run_id": "sampled_val_eval_neg3x_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:41:58.413619",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "val_sampled",
+        "data_version": "val_pairs_sampled_neg3x.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "best threshold from sampled validation sweep",
+        "selected_threshold": 0.26,
+        "metrics": {
+            "tp": 2209,
+            "tn": 6642,
+            "fp": 0,
+            "fn": 5,
+            "accuracy": 0.9994354110207768,
+            "precision": 1.0,
+            "recall": 0.9977416440831075,
+            "specificity": 1.0,
+            "balanced_accuracy": 0.9988708220415538,
+            "f1": 0.998869545557314
+        },
+        "confidence_summary": {
+            "mean_confidence": 0.989421546459198,
+            "min_confidence": 0.015361308120191097,
+            "max_confidence": 1.0
+        },
+        "note": "Evaluation on sampled validation set using neg3x",
+        "extra": {
+            "ratio_tag": "neg3x",
+            "best_threshold_file": "val_sampled_neg3x_cosine_with_embeddings_best_threshold.json",
+            "num_pairs": 8856
+        }
+    },
+    {
+        "run_id": "sampled_test_eval_neg3x_cosine_with_embeddings",
+        "timestamp": "2026-04-14T17:42:29.825776",
+        "code_version": "327ebcd3d8913f56a245c5b5024bfeb83b06774e",
+        "split": "test",
+        "data_version": "test_pairs.npy",
+        "score_function": "cosine_with_embeddings",
+        "threshold_rule": "maximize balanced_accuracy on sampled validation",
+        "selected_threshold": 0.26,
+        "metrics": {
+            "tp": 2083,
+            "tn": 873362,
+            "fp": 379,
+            "fn": 2,
+            "accuracy": 0.9995649820854827,
+            "precision": 0.8460601137286758,
+            "recall": 0.9990407673860912,
+            "specificity": 0.9995662330141312,
+            "balanced_accuracy": 0.9993035002001112,
+            "f1": 0.9162084891137013
+        },
+        "confidence_summary": {
+            "mean_confidence": 0.9860640168190002,
+            "min_confidence": 0.0002106030733557418,
+            "max_confidence": 1.0
+        },
+        "note": "Final test evaluation using threshold from sampled validation (neg3x)",
+        "extra": {
+            "ratio_tag": "neg3x",
+            "threshold_source": "val_sampled_neg3x_cosine_with_embeddings_best_threshold.json",
+            "sampled_data_version": "val_pairs_sampled_neg3x.npy",
+            "num_pairs": 875826
+        }
+    }
+]

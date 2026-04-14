@@ -2,7 +2,7 @@ import os
 import json  
 import numpy as np  
 import matplotlib.pyplot as plt  
-from src.config import OUTPUT_DIR, RUNS_DIR, SCORE_FUNCTION, VAL_NEGATIVE_RATIO 
+from src.config import OUTPUT_DIR, RUNS_DIR, SCORE_FUNCTION, VAL_NEGATIVE_RATIO, SCORE_FUNCTION
 from src.evaluation import load_lfw_images, compute_scores  
 from src.metrics import apply_threshold  
 
@@ -28,7 +28,7 @@ def save_pair(img1, img2, title, save_path):
 def main():
 
     # load threshold from final test run
-    run_path = os.path.join(RUNS_DIR, f"sampled_test_eval_neg{VAL_NEGATIVE_RATIO}x.json")  # path to results
+    run_path = os.path.join(RUNS_DIR, f"sampled_test_eval_neg{VAL_NEGATIVE_RATIO}x_{SCORE_FUNCTION}.json")  # path to results
 
     with open(run_path) as f:
         run = json.load(f)  # load run metadata 
