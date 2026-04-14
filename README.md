@@ -63,7 +63,7 @@ face-verification/
 
 ---
 
-## How to Run
+### Milestone 1 Pipeline
 
 ### Setup
 ```bash
@@ -100,7 +100,7 @@ python -m scripts.run_baseline_val_eval
 python -m scripts.run_baseline_test_eval
 ```
 
-#### Data-Centric Improvement
+#### Data-Centric
 
 ```bash
 python -m scripts.run_validation_sampling
@@ -143,30 +143,48 @@ The inference pipeline consists of:
 ---
 
 ### How to Run
-
-#### Local Setup
  
 **Run CLI Inference**
+```bash
 python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
+```
  
 **Run Load Test (Concurrency)**
+```bash
 python -m scripts.run_load_test --pairs_file examples/load_test_pairs.json --requests 10 --workers 3
+```
  
 **Run Tests**
+```bash
 python -m pytest
+```
  
 **Docker**
+
 Build:
+```bash
 docker build -t face-verification .
+```
+
 Run:
+```bash
 docker run --rm face-verification --image1 "/app/examples/sample1.jpg" --image2 "/app/examples/sample2.jpg"
+```
  
 **Artifact Locations**
-•	Example images:
+
+Example images:
+```bash
 examples/
-•	Load test input pairs:
+```
+
+Load test input pairs:
+```bash
 examples/load_test_pairs.json
-•	Load test output:
+```
+
+Load test output:
+
 printed in terminal summary
  
 **Embeddings**
@@ -177,26 +195,46 @@ Sampled Validation Sweep’s Selected Threshold: 0.29
 
  
 **Confidence**
-The CLI reports a confidence value between 0 and 1.
-This confidence is not a probability. It is a simple margin-based score that shows how far the similarity score is from the operating threshold.
+The CLI reports a confidence value between 0 and 1. This confidence is not a probability, but rather a simple margin-based score that shows how far the similarity score is from the operating threshold.
+
 For the embedding-based cosine system:
+
 •	Higher confidence means the score is farther from the threshold, so the decision is more clear.
+
 •	Lower confidence means the score is closer to the threshold, so the decision is less certain.
+
+
 Confidence is computed as:
+```bash
 confidence = clip(abs(score - threshold) / margin_scale, 0, 1)
+```
+
 Interpretation:
+
 •	confidence near 0: score is very close to the decision boundary
+
 •	confidence near 1: score is far from the decision boundary
+
+
 Example:
+
 •	if the score is 0.30, confidence is low because it is close to the threshold 0.29
+
 •	if the score is 0.95 or -0.10, confidence is high because it is far from the threshold
  
+
 **Design Notes**
+
 •	Embedding model: InsightFace buffalo_s (fast and lightweight)
+
 •	Similarity metric: cosine similarity on normalized embeddings
+
 •	Threshold: fixed at 0.29 based on sampled validation sweep
+
 •	Confidence: margin-based, derived from distance to threshold
+
 •	Inference interface: CLI using argparse
+
 •	Load testing: concurrent execution using ThreadPoolExecutor
  
 
