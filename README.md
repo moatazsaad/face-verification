@@ -213,16 +213,16 @@ confidence = clip(abs(score - threshold) / margin_scale, 0, 1)
 
 Interpretation:
 
-•	confidence near 0: score is very close to the decision boundary
+•	Confidence near 0: score is very close to the decision boundary
 
-•	confidence near 1: score is far from the decision boundary
+•	Confidence near 1: score is far from the decision boundary
 
 
 Example:
 
-•	if the score is 0.30, confidence is low because it is close to the threshold 0.29
+•	If the score is 0.30, confidence is low because it is close to the threshold 0.29
 
-•	if the score is 0.95 or -0.10, confidence is high because it is far from the threshold
+•	If the score is 0.95 or -0.10, confidence is high because it is far from the threshold
  
 
 **Design Notes:**
