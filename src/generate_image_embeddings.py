@@ -1,29 +1,28 @@
 # Import MobileFaceNet
-import torch
 from PIL import Image
 import numpy as np
 import insightface
 from insightface.app import FaceAnalysis
 from src.config import SCORE_FUNCTION
+import os
+import contextlib
 
-app = FaceAnalysis(
-    name="buffalo_s", # lightweight model, can be changed later, but keeping this for speed and resource constraints
-    allowed_modules=["detection", "recognition"] # allowed modules for detection and face recognition
-)
-app.prepare(
-    ctx_id=-1,              # change to 0 if you have CUDA working
-    det_size=(256, 256)     # resizes input image to 256x256 before detection, can be changed to 320x320
-)
-
-
+# Initialize InsightFace model once at the module level to avoid repeated loading
+# Wrap the model initialization with stdout/stderr suppression
+with open(os.devnull, "w") as f, \
+     contextlib.redirect_stdout(f), \
+     contextlib.redirect_stderr(f):
+    app = FaceAnalysis(
+        name="buffalo_s",
+        allowed_modules=["detection", "recognition"],
+        providers=["CPUExecutionProvider"],
+    )
+    app.prepare(ctx_id=-1)
+    
 # Preprocessing function:
 # Converts input ndarray into uint RGB formatting
 # This ensures that the face detection and recognition models receive images i a consistent format
 def arr_to_uint8_rgb(arr):
-    """
-    Converts input array to uint8 RGB image.
-    Handles float images and already-uint8 images safely.
-    """
     arr = np.asarray(arr)
 
     if arr.dtype == np.uint8:
@@ -43,37 +42,36 @@ def arr_to_uint8_rgb(arr):
     return out
 
 
-# Returns a 512-d embedding or None if no face is detected
+# Following three functions returns a 512-d embedding or None if no face is detected
 # face.embedding is expected to be a 512-dimensional vector
 # InsightFace expects BGR input, so we have to convert from RGB to BGR before passing to the model
-def get_embedding(image):
+
+# Preprocessing image helper
+def preprocess_image(image):
     img_rgb = arr_to_uint8_rgb(image)
     img_bgr = img_rgb[:, :, ::-1]
+    return img_bgr
 
+# Embedding extraction helper
+def extract_embedding_from_preprocessed(img_bgr):
     faces = app.get(img_bgr)
-
     if len(faces) == 0:
         return None
-
-    # keep largest detected face
     face = max(faces, key=lambda f: (f.bbox[2] - f.bbox[0]) * (f.bbox[3] - f.bbox[1]))
     emb = face.embedding.astype(np.float32)
-
-    # normalize explicitly for cosine similarity stability
     norm = np.linalg.norm(emb)
     if norm > 0:
         emb = emb / norm
-
     return emb
 
+# Main embedding function that calls on preprocessing and embedding extraction helpers
+def get_embedding(image):
+    img_bgr = preprocess_image(image)
+    return extract_embedding_from_preprocessed(img_bgr)
 
 # Compputes one embedding per image for speedup, since embeddings are reused accross many pairs
 # Saves embeddings to disc
 def precompute_embeddings(images, save_path=None):
-    """
-    Computes one embedding per image.
-    This is the main speed fix.
-    """
     embeddings = []
     for i, img in enumerate(images):
         # Tracker for reassurance purposes
@@ -101,8 +99,6 @@ def compute_scores_from_embeddings(embeddings, pairs):
     scores = np.empty(len(pairs), dtype=np.float32)
 
     for i, (idx1, idx2) in enumerate(pairs):
-        if i % 10000 == 0:
-            print(f"Scoring pair {i}/{len(pairs)}")
         if SCORE_FUNCTION == "cosine_with_embeddings":
             scores[i] = cosine_score(embeddings[idx1], embeddings[idx2])
         elif SCORE_FUNCTION == "euclidean_with_embeddings":

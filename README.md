@@ -10,43 +10,12 @@
 This project implements a face verification system using the Labeled Faces in the Wild (LFW) dataset.
 
 - **Milestone 1:** deterministic pipeline (data ingestion, pair generation, similarity scoring, benchmarking)  
-- **Milestone 2:** reproducible evaluation system with threshold calibration, experiment tracking, data-centric iteration, and error analysis  
+- **Milestone 2:** reproducible evaluation system with threshold calibration, experiment tracking, data-centric iteration, and error analysis 
+- **Milestone 3:** uses embeddings to compare two images, and extends it with a CLI interface, Docker packaging, confidence calibration, and concurrent load testing
 
 The system takes two face images and outputs:
 - a similarity score  
 - a same-person vs different-person decision based on a threshold  
-
----
-
-## Milestone 1 (Baseline)
-
-- Deterministic LFW ingestion and dataset split  
-- Deterministic pair generation (train/validation/test)  
-- Similarity computation (cosine similarity and Euclidean distance)  
-- Benchmarking Python loops vs NumPy vectorization  
-
----
-
-## Milestone 2 (Evaluation & Iteration)
-
-### Baseline
-- Threshold selected from full validation set  
-- Rule: **maximize balanced accuracy**  
-- Final evaluation on held-out test set  
-
-### Data-Centric Improvement
-- Modified validation distribution:
-  - keep all positive pairs  
-  - sample negatives to **3:1 ratio (negative:positive)**  
-- Threshold re-selected on sampled validation  
-- Test set unchanged  
-
-### Key Result
-Both baseline and improved systems produced the same threshold (**0.76**) and identical test results.
-
-This indicates:
-- similarity score ranking is stable  
-- threshold selection is robust to validation sampling  
 
 ---
 
@@ -66,6 +35,8 @@ face-verification/
 │ ├─ metrics.py
 │ ├─ validation.py
 │ ├─ run_tracker.py
+│ ├─ generate_image_embeddings.py
+│ ├─ run_inference_cli.py
 │ └─ config.py
 │
 ├─ scripts/
@@ -79,6 +50,7 @@ face-verification/
 │ ├─ sample_validation_pairs.py
 │ ├─ run_sampled_val_sweep.py
 │ ├─ run_sampled_val_eval.py
+│ ├─ run_load_test.py
 │ └─ run_sampled_test_eval.py
 │
 ├─ tests/
@@ -91,7 +63,7 @@ face-verification/
 
 ---
 
-## How to Run
+### Milestone 1 Pipeline
 
 ### Setup
 ```bash
@@ -128,7 +100,7 @@ python -m scripts.run_baseline_val_eval
 python -m scripts.run_baseline_test_eval
 ```
 
-#### Data-Centric Improvement
+#### Data-Centric
 
 ```bash
 python -m scripts.run_validation_sampling
@@ -138,168 +110,135 @@ python -m scripts.run_sampled_test_eval
 ```
 
 ---
+## Milestone 3
 
-## Tests
+This project implements a face verification system using deep embeddings. Given two input images, the system determines whether they belong to the same person by computing a similarity score between their embeddings.
 
-Unit Tests (metrics, threshold logic, validation):
+Milestone 3 extends the system by adding a clean CLI inference interface, Docker packaging, confidence calibration, and a concurrent load testing setup.
+
+---
+
+## Pipeline Summary
+
+The inference pipeline consists of:
+
+1. **Preprocessing**  
+   Load image and convert to RGB format.
+
+2. **Embedding Generation**  
+   Extract face embeddings using InsightFace (`buffalo_s` model).
+
+3. **Similarity Scoring**  
+   Compute cosine similarity between embeddings.
+
+4. **Threshold Decision**  
+   Compare score to a fixed threshold (`0.29`) to determine match.
+
+5. **Confidence Computation**  
+   Compute a margin-based confidence score based on distance from threshold.
+
+6. **Latency Measurement**  
+   Measure total inference time per request.
+
+---
+
+### How to Run
+ 
+**Run CLI Inference:**
 ```bash
-python3 -m pytest tests/test_metrics.py -v
-python3 -m pytest tests/test_validation.py -v
-python3 -m pytest tests/test_evaluation.py -v
+python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
 ```
-
-Integration Test (end-to-end pipeline check):
+ 
+**Run Load Test (Concurrency):**
 ```bash
-python3 -m pytest tests/test_pipeline_integration.py -v
+python -m scripts.run_load_test --pairs_file examples/load_test_pairs.json --requests 10 --workers 3
+```
+ 
+**Run Tests:**
+```bash
+python -m pytest
+```
+ 
+**Docker:**
+
+Build:
+```bash
+docker build -t face-verification .
 ```
 
----
-
-## Outputs
-
-* `artifacts/train_pairs.npy`, `train_labels.npy`
-* `artifacts/val_pairs.npy`, `val_labels.npy`
-* `artifacts/test_pairs.npy`, `test_labels.npy`
-* `artifacts/runs/` -> tracked experiment runs
-* threshold sweep and best-threshold JSON files
-* benchmarking outputs
-
----
-
-## Experiment Tracking
-
-Each run records:
-
-* run_id
-* timestamp
-* code version
-* split (val/test)
-* data version
-* threshold rule
-* selected threshold
-* metrics
-* notes
-
-### Key Runs
-
-* `baseline_val_sweep`
-* `baseline_val_selected`
-* `baseline_test_eval`
-* `sampled_val_sweep`
-* `sampled_val_eval_best`
-* `sampled_test_eval`
-
----
-
-## Threshold Selection
-
-* Rule: **maximize balanced accuracy on validation**
-* Selected on validation only (no test leakage)
-* Fixed before test evaluation
-
----
-
-## Data-Centric Change
-
-Problem:
-
-* Validation set heavily dominated by negative pairs
-
-Solution:
-
-* Deterministic sampling:
-
-  * keep all positives
-  * sample negatives to 3:1 ratio
-
-Effect:
-
-* Preserves ROC behavior
-* Reduces computation
-* Produces same optimal threshold
-
----
-
-## Results (Test Set)
-
-* Precision ≈ 0.003
-* Recall ≈ 0.36
-* Balanced Accuracy ≈ 0.53
-
-Observation:
-
-* High false positives
-* Model struggles with visually similar faces
-
----
-
-## Error Analysis
-
-**False Negatives**
-
-* Same person under different conditions (pose, lighting, expression)
-* Cause: sensitivity to intra-class variation
-
-**False Positives**
-
-* Different individuals with similar appearance
-* Cause: weak feature discrimination
-
----
-
-## Validation & Reliability
-
-The pipeline includes:
-
-* input validation (pairs, labels, splits)
-* threshold validation
-* score consistency checks
-* metric validation
-* fail-fast error handling
-
----
-
-## Milestone 2 Report
-
+Run:
+```bash
+docker run --rm face-verification --image1 "/app/examples/sample1.jpg" --image2 "/app/examples/sample2.jpg"
 ```
-reports/Milestone 2 Evaluation Report.pdf
+ 
+**Artifact Locations:**
+
+Example images:
+```bash
+examples/
 ```
 
-Includes:
+Load test input pairs:
+```bash
+examples/load_test_pairs.json
+```
 
-* ROC curve
-* confusion matrix
-* error slices
-* baseline vs improved comparison
+Load test output:
 
----
+printed in terminal summary
+ 
+**Embeddings:**
 
-## Reproducibility
+The embedding module, generate_image_embeddings.py, first precomputes the embeddings of each image in our chosen split, in this case, the validation split. Afterwards, we have a function to compute the cosine similarity or Euclidean distance of the image pairs based on these embeddings. After running our threshold sweeps on these embeddings, we have the following results:
 
-From a clean clone:
+Baseline Validation Sweep’s Selected Threshold: 0.35
 
-1. install requirements
-2. run commands above
-3. results and runs will reproduce
+Sampled Validation Sweep’s Selected Threshold: 0.29
 
-Final reported result:
+ 
+**Confidence:**
 
-* run: `run_sampled_test_eval.py`
-* threshold: 0.76
+The CLI reports a confidence value between 0 and 1. This confidence is not a probability, but rather a simple margin-based score that shows how far the similarity score is from the operating threshold.
 
----
+For the embedding-based cosine system:
 
-## Determinism Notes
+•	Higher confidence means the score is farther from the threshold, so the decision is more clear.
 
-All data processing steps are deterministic:
+•	Lower confidence means the score is closer to the threshold, so the decision is less certain.
 
-* fixed random seed
-* reproducible pair generation
-* identical outputs across runs
 
----
+Confidence is computed as:
+```bash
+confidence = clip(abs(score - threshold) / margin_scale, 0, 1)
+```
 
-## Submission
+Interpretation:
 
-* Git tag: `v0.2`
-* Includes reproducible pipeline, report, tests, and tracked runs
+•	Confidence near 0: score is very close to the decision boundary
+
+•	Confidence near 1: score is far from the decision boundary
+
+
+Example:
+
+•	If the score is 0.30, confidence is low because it is close to the threshold 0.29
+
+•	If the score is 0.95 or -0.10, confidence is high because it is far from the threshold
+ 
+
+**Design Notes:**
+
+•	Embedding model: InsightFace buffalo_s (fast and lightweight)
+
+•	Similarity metric: cosine similarity on normalized embeddings
+
+•	Threshold: fixed at 0.29 based on sampled validation sweep
+
+•	Confidence: margin-based, derived from distance to threshold
+
+•	Inference interface: CLI using argparse
+
+•	Load testing: concurrent execution using ThreadPoolExecutor
+ 
+
+

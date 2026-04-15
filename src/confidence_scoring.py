@@ -2,19 +2,18 @@
 import json
 import os
 import numpy as np
-from src.config import (
-    OUTPUT_DIR, SCORE_FUNCTION, THRESHOLD_MIN, THRESHOLD_MAX, THRESHOLD_STEP
-)
+from src.config import (OUTPUT_DIR, SCORE_FUNCTION, THRESHOLD_MIN, THRESHOLD_MAX, THRESHOLD_STEP)
 
 """
 Derive a confidence score from how far a similarity score is from the operating threshold.
 
-This is a derived margin-based confidence, not a probabilistic calibration model. 
+This is a derived margin-based confidence, not a probabilistic calibration model.
 It expresses how far a score lies from the decision boundary.
 
 Returns an ndarray the same size as scores of values between 0 and 1
 """
 def compute_confidence_from_scores(scores, threshold, score_type=SCORE_FUNCTION, margin_scale=0.15):
+    scores = np.array(scores) 
     margins = np.abs(scores - threshold)
     confidence = np.clip(margins / margin_scale, 0.0, 1.0)
     return confidence.astype(np.float32)
