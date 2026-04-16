@@ -65,13 +65,6 @@ face-verification/
 
 ### Milestone 1 Pipeline
 
-### Setup
-```bash
-pip install -r requirements.txt
-````
-
-### Milestone 1 Pipeline
-
 ```bash
 python3 -m venv tf_env
 source tf_env/bin/activate
@@ -173,7 +166,7 @@ docker run --rm face-verification --image1 "/app/examples/sample1.jpg" --image2 
  
 **Artifact Locations:**
 
-Example images:
+Example images and output:
 ```bash
 examples/
 ```

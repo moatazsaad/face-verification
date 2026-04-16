@@ -5,18 +5,10 @@ import numpy as np
 def apply_threshold(scores, threshold, score_type):
     scores = np.array(scores)
 
-    if score_type == "cosine" or score_type == "cosine_with_embeddings":
-        # Higher score = more similar, return 1 if >= threshold otherwise 0
+    if score_type in ["cosine", "cosine_with_embeddings"]:
         return (scores >= threshold).astype(int)
-    elif score_type == "euclidean" or score_type == "euclidean_with_embeddings":
-        # Lower distance = more similar, return 1 if <= threshold otherwise 0
+    elif score_type in ["euclidean", "euclidean_with_embeddings"]:
         return (scores <= threshold).astype(int)
-
-    elif score_type == "euclidean":
-        # Lower distance = more similar, return 1 if <= threshold otherwise 0
-        return (scores <= threshold).astype(int)
-    
-
     else:
         raise ValueError(f"Unsupported score_type: {score_type}")
 
