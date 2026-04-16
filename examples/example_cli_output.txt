@@ -1,0 +1,13 @@
+
+Inference Result
+------------------
+pair_id=(examples/sample1.jpg, examples/sample2.jpg)
+score=-0.1024550125002861
+score_type=cosine_with_embeddings
+threshold=0.29
+decision=non-match
+confidence=1.0
+preprocessing_time_ms=0.02
+embedding_time_ms=287.34
+score_time_ms=0.02
+total_time_ms=287.38

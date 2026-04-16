@@ -2,9 +2,8 @@ import argparse
 import time
 import numpy as np
 from PIL import Image
-from src.config import SCORE_FUNCTION, OPERATING_THRESHOLD, OUTPUT_DIR
+from src.config import SCORE_FUNCTION, OPERATING_THRESHOLD
 from src.confidence_scoring import compute_confidence_from_scores
-from src.evaluation import compute_scores
 from src.metrics import apply_threshold
 from src.similarity import cosine_similarity, euclidean_distance
 import warnings
@@ -100,10 +99,10 @@ def run_single_inference(img1, img2, pair_id=None):
         "threshold": OPERATING_THRESHOLD,
         "decision": decision_str,
         "confidence": confidence,
-        "preprocessing_time_ms": f"{compute_latency_ms(preprocessing_time):.2f}",
-        "embedding_time_ms": f"{compute_latency_ms(embedding_time):.2f}",
-        "score_time_ms": f"{compute_latency_ms(score_time):.2f}",
-        "total_time_ms": f"{compute_latency_ms(total_time):.2f}",
+        "preprocessing_time_ms": compute_latency_ms(preprocessing_time),
+        "embedding_time_ms": compute_latency_ms(embedding_time),
+        "score_time_ms": compute_latency_ms(score_time),
+        "total_time_ms": compute_latency_ms(total_time),
     }
     return result
 
@@ -113,7 +112,12 @@ def run_single_inference(img1, img2, pair_id=None):
 def print_single_inference_result(result):
     print("\nInference Result")
     print("------------------")
-    print(*[f"{k}={v}" for k, v in result.items()], sep="\n")
+    
+    for k, v in result.items():
+        if k.endswith("_time_ms"):
+            print(f"{k}={v:.2f}")
+        else:
+            print(f"{k}={v}")
 
 
 def main():
