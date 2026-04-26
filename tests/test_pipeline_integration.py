@@ -25,6 +25,11 @@ def test_small_pipeline_integration(tmp_path, monkeypatch):
         selected_threshold=threshold,
         metrics=metrics,
         note="integration test",
+        confidence_summary={
+            "mean_confidence": 1.0,
+            "min_confidence": 1.0,
+            "max_confidence": 1.0,
+        }, 
     )
 
     out_file = tmp_path / "test_run.json"
