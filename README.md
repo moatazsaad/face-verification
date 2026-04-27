@@ -113,7 +113,7 @@ Milestone 3 extends the system by adding a clean CLI inference interface, Docker
 
 ---
 
-## Pipeline Summary
+#### Pipeline Summary
 
 The inference pipeline consists of:
 
@@ -137,7 +137,7 @@ The inference pipeline consists of:
 
 ---
 
-### How to Run
+#### How to Run
  
 **Run CLI Inference:**
 ```bash
@@ -185,16 +185,9 @@ printed in terminal summary
 ---
 ## Milestone 4
 
-Establishes the system card, hardware-aware profiling, and reproducibility checklist. These artifacts can be found in:
-```bash
-reports/
-```
+Establishes the system card, hardware-aware profiling, and reproducibility checklist. These artifacts can be found in: `reports/`
 
-The
-```bash
-reproducibility_checklist.md
-```
-file provides the instructions to replicate the core results of this face verification workflow.
+The `reproducibility_checklist.md` file provides the instructions to replicate the core results of this face verification workflow.
 
 ---
  
