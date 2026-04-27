@@ -274,5 +274,6 @@ def main():
 
 # Example batch inference command:
 # python -m src.run_inference_cli --folder examples/
+
 if __name__ == "__main__":
     main()

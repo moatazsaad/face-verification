@@ -139,9 +139,14 @@ The inference pipeline consists of:
 
 #### How to Run
  
-**Run CLI Inference:**
+**Run Pair-Level CLI Inference:**
 ```bash
 python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
+```
+
+**Run Batch-Level CLI Inference:**
+```bash
+python -m src.run_inference_cli --folder examples/
 ```
  
 **Run Load Test (Concurrency):**
