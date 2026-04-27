@@ -12,10 +12,12 @@ This project implements a face verification system using the Labeled Faces in th
 - **Milestone 1:** deterministic pipeline (data ingestion, pair generation, similarity scoring, benchmarking)  
 - **Milestone 2:** reproducible evaluation system with threshold calibration, experiment tracking, data-centric iteration, and error analysis 
 - **Milestone 3:** uses embeddings to compare two images, and extends it with a CLI interface, Docker packaging, confidence calibration, and concurrent load testing
+- **Milestone 4:** System audit, hardware-aware profiling, and reproducible final release
 
 The system takes two face images and outputs:
 - a similarity score  
 - a same-person vs different-person decision based on a threshold  
+- a confidence score based on the distance from teh threshold
 
 ---
 
@@ -179,6 +181,22 @@ examples/load_test_pairs.json
 Load test output:
 
 printed in terminal summary
+
+---
+## Milestone 4
+
+Establishes the system card, hardware-aware profiling, and reproducibility checklist. These artifacts can be found in:
+```bash
+reports/
+```
+
+The
+```bash
+reproducibility_checklist.md
+```
+file provides the instructions to replicate the core results of this face verification workflow.
+
+---
  
 **Embeddings:**
 
