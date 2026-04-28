@@ -261,4 +261,18 @@ Example:
 •	Load testing: concurrent execution using ThreadPoolExecutor
 
 
+## Milestone 4 Final Release
 
+Milestone 4 finalizes the face verification system as a reproducible release. It adds a System Card, CPU profiling, batch-size sensitivity analysis and a reproducibility checklist.
+
+### Final Release Artifacts
+
+- System Card: `reports/system_card.md`
+- Profiling Report: `reports/profiling_report.md`
+- Profiling CSV: `reports/profiling_cpu_summary.csv`
+- Reproducibility Checklist: `reports/reproducibility_checklist.md`
+
+### Run Milestone 4 CPU Profiling
+
+```bash
+python -m scripts.run_profiling

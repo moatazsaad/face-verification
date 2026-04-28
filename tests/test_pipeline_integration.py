@@ -17,14 +17,14 @@ def test_small_pipeline_integration(tmp_path, monkeypatch):
     monkeypatch.setattr("src.run_tracker.RUNS_DIR", str(tmp_path))
 
     save_run(
-        run_id="test_run",
-        split="val",
-        data_version="tiny_fixture",
-        score_function="cosine",
-        threshold_rule="fixed",
-        selected_threshold=threshold,
-        metrics=metrics,
-        note="integration test",
+    run_id="test_run",
+    split="val",
+    data_version="tiny_fixture",
+    score_function="cosine",
+    threshold_rule="fixed",
+    selected_threshold=threshold,
+    metrics=metrics,
+    note="integration test",
     )
 
     out_file = tmp_path / "test_run.json"
