@@ -66,5 +66,5 @@ The profiling uses a small set of repeated pair-level inference runs. It is suff
 
 The final system was profiled on CPU and produced a clear latency breakdown for preprocessing, embedding generation, scoring, and total inference time. The results show that embedding generation is the main runtime cost, while preprocessing and scoring are very small. The batch-size comparison provides the required batch-size sensitivity analysis for the final release.
 
-```
+
 
