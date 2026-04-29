@@ -1,6 +1,6 @@
 # Reproducibility Checklist
 
-## Final Git Tag
+### Final Git Tag
 
 Final tag: `v1.0-final`
 
