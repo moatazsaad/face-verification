@@ -1,4 +1,10 @@
-## Reproducibility Checklist
+# Reproducibility Checklist
+
+## Final Git Tag
+
+Final tag: `v1.0-final`
+
+This tag points to the final reproducible release for Milestone 4.
 
 Follow the steps below to reproduce the core results of the face verification system.
 
@@ -20,9 +26,38 @@ python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/
 
 ### Run Batch Inference
 
+Build the Docker image:
+
 ```bash
 python -m src.run_inference_cli --folder examples/
 ```
+
+### Run Docker
+
+Build the Docker image:
+
+```bash
+docker build -t face-verification .
+```
+
+Run CLI inference inside Docker:
+
+```bash
+docker run --rm face-verification --image1 "/app/examples/sample1.jpg" --image2 "/app/examples/sample2.jpg"
+```
+
+Expected output includes:
+
+* pair ID
+* similarity score
+* score type
+* threshold
+* match/non-match decision
+* confidence
+* preprocessing time
+* embedding time
+* scoring time
+* total inference time
 
 ### Run Tests
 
@@ -41,3 +76,21 @@ python -m pytest
 ```bash
 git checkout v1.0-final
 ```
+
+## Final System Settings
+
+* Embedding model: InsightFace `buffalo_s`
+* Score type: `cosine_with_embeddings`
+* Similarity metric: cosine similarity
+* Operating threshold: `0.29`
+* Interface: CLI
+* CPU profiling artifact: `reports/profiling_cpu_summary.csv`
+
+## Final Release Artifacts
+
+* README: `README.md`
+* System Card: `reports/system_card.md`
+* Profiling Report: `reports/profiling_report.md`
+* Profiling CSV: `reports/profiling_cpu_summary.csv`
+* Reproducibility Checklist: `reports/reproducibility_checklist.md`
+* Final configuration: `src/config.py`
