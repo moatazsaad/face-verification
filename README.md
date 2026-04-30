@@ -12,10 +12,12 @@ This project implements a face verification system using the Labeled Faces in th
 - **Milestone 1:** deterministic pipeline (data ingestion, pair generation, similarity scoring, benchmarking)  
 - **Milestone 2:** reproducible evaluation system with threshold calibration, experiment tracking, data-centric iteration, and error analysis 
 - **Milestone 3:** uses embeddings to compare two images, and extends it with a CLI interface, Docker packaging, confidence calibration, and concurrent load testing
+- **Milestone 4:** System audit, hardware-aware profiling, and reproducible final release
 
 The system takes two face images and outputs:
 - a similarity score  
 - a same-person vs different-person decision based on a threshold  
+- a confidence score based on the distance from teh threshold
 
 ---
 
@@ -111,7 +113,7 @@ Milestone 3 extends the system by adding a clean CLI inference interface, Docker
 
 ---
 
-## Pipeline Summary
+#### Pipeline Summary
 
 The inference pipeline consists of:
 
@@ -135,11 +137,16 @@ The inference pipeline consists of:
 
 ---
 
-### How to Run
+#### How to Run
  
-**Run CLI Inference:**
+**Run Pair-Level CLI Inference:**
 ```bash
 python -m src.run_inference_cli --image1 examples/sample1.jpg --image2 examples/sample2.jpg
+```
+
+**Run Batch-Level CLI Inference:**
+```bash
+python -m src.run_inference_cli --folder examples/
 ```
  
 **Run Load Test (Concurrency):**
@@ -179,6 +186,15 @@ examples/load_test_pairs.json
 Load test output:
 
 printed in terminal summary
+
+---
+## Milestone 4
+
+Establishes the system card, hardware-aware profiling, and reproducibility checklist. These artifacts can be found in: `reports/`
+
+The `reproducibility_checklist.md` file provides the instructions to replicate the core results of this face verification workflow.
+
+---
  
 **Embeddings:**
 
