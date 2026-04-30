@@ -1,0 +1,5 @@
+batch_size,repeats,total_requests,cpu,score_type,threshold,preprocessing_mean_ms,embedding_mean_ms,scoring_mean_ms,total_mean_ms,total_p95_ms,throughput_pairs_per_sec
+1,3,3,i386,cosine_with_embeddings,0.29,0.009,173.965,0.014,173.987,43.079,0.178
+2,3,6,i386,cosine_with_embeddings,0.29,0.009,43.703,0.017,43.729,43.765,21.642
+4,3,12,i386,cosine_with_embeddings,0.29,0.007,41.313,0.012,41.333,43.719,22.804
+8,3,24,i386,cosine_with_embeddings,0.29,0.007,41.613,0.012,41.633,43.626,22.685
