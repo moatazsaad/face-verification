@@ -32,7 +32,7 @@ Build the Docker image:
 python -m src.run_inference_cli --folder examples/
 ```
 
-### Run Milestone 4 CPU Profiling
+### Run CPU Profiling
 
 ```bash
 python -m scripts.run_profiling
