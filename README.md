@@ -136,8 +136,6 @@ The inference pipeline consists of:
    Measure total inference time per request.
 
 ---
-
-#### How to Run
  
 **Run Pair-Level CLI Inference:**
 ```bash
