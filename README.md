@@ -111,9 +111,7 @@ This project implements a face verification system using deep embeddings. Given 
 
 Milestone 3 extends the system by adding a clean CLI inference interface, Docker packaging, confidence calibration, and a concurrent load testing setup.
 
----
-
-#### Pipeline Summary
+### Pipeline Summary
 
 The inference pipeline consists of:
 
@@ -135,7 +133,7 @@ The inference pipeline consists of:
 6. **Latency Measurement**  
    Measure total inference time per request.
 
----
+### How to Run
  
 **Run Pair-Level CLI Inference:**
 ```bash
