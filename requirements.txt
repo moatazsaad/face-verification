@@ -4,7 +4,7 @@ tensorflow-datasets
 mlflow
 pytest
 
-# Milestone 3
+# Embedding model requirements
 insightface
 onnx==1.16.0
 onnxruntime
